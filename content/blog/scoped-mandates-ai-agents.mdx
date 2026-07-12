@@ -1,0 +1,62 @@
+---
+title: "Scoped Mandates: Limiting What Your AI Agents Can Do"
+date: "July 12 2026"
+description: "Scoped mandates help AI agents operate safely by limiting tools, actions, and environments. Learn how to design them in practice."
+category: "Governance"
+author: "AgentTag Team"
+---
+
+A powerful agent with unclear boundaries is not a feature. It is a liability. The fastest way to make agents safer in production is to define a scoped mandate for each one: what it may do, where it may act, and what is always off-limits.
+
+This idea is close to least privilege in security, but it needs to be adapted for agent systems. Agents are dynamic, tool-using actors, which means mandates must constrain behavior across actions, systems, and circumstances, not just static permissions.
+
+### What a scoped mandate includes
+
+A good mandate is explicit in at least five ways.
+
+- **Action scope:** what categories of actions are allowed. 
+- **Tool scope:** which systems or connectors the agent can use. 
+- **Data scope:** what information the agent may read, write, or export. 
+- **Environment scope:** where it can act, such as sandbox, staging, or production. 
+- **Escalation rules:** what requires approval or denial. 
+
+Without these layers, teams usually end up with fuzzy rules that humans understand informally but the system cannot enforce reliably.
+
+### Why broad access backfires
+
+Broad access feels efficient because it reduces setup. But when an agent spans too many tools, too much data, or too many action types, the blast radius grows faster than the productivity gain.
+
+This is also where debugging becomes painful. If the agent takes a bad action, the team has to ask whether the model reasoned badly, whether the policy was weak, or whether the mandate was simply too broad.
+
+### Designing mandates in practice
+
+The best mandates start narrow and expand with evidence. A team might begin by allowing an agent to read support tickets and draft replies, then later permit it to send replies only below specific confidence and content thresholds with approval for edge cases.
+
+That progression matters because it lets the team learn where the real risks live. Mandates should be treated as living operational contracts, not one-time permission documents.
+
+### Questions to ask before granting scope
+
+Before expanding an agent’s mandate, ask:
+
+- Is the action reversible? 
+- Does it cross a trust boundary? 
+- Could it spend money or create legal obligations? 
+- Does it touch sensitive or regulated data? 
+- Can the action be clearly logged and reviewed? 
+- Is human approval required at certain thresholds? 
+
+These questions help teams distinguish between safe autonomy and careless delegation.
+
+### Mandates need enforcement, not just documentation
+
+A common failure mode is writing a policy document but giving the runtime no way to enforce it. Mandates only matter when every action is checked against them before execution.
+
+That usually means combining the mandate with a policy engine, approval system, and event log so the team can see both allowed and denied behavior.
+
+### Where AgentTag fits
+
+AgentTag is especially relevant here because scoped mandates are a natural part of an agent control plane. Instead of treating permissions as scattered config, teams can attach bounded authority directly to agent identity and decision flow.
+
+**CTA:** Autonomy becomes useful when scope is precise. AgentTag helps teams define and enforce that scope in production.
+
+---
