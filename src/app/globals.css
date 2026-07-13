@@ -1,4 +1,5 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* ============================================================
    SHADCN / @efferd NEUTRAL DESIGN SYSTEM
@@ -45,9 +46,56 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-display: var(--font-bricolage);
+  --font-heading: var(--font-display);
 }
 
-/* Neutral (zinc) light values â€” scoped to the dashboard subtree and portaled elements */
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --radius: 0.625rem;
+}
+
+[data-theme="dark"] {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+}
+
+/* Neutral (zinc) light values — scoped to the dashboard subtree and portaled elements */
 .aeg-dash,
 [data-slot="dropdown-menu-content"],
 [data-slot="dropdown-menu-sub-content"],
@@ -91,7 +139,7 @@
   --sidebar-ring: rgba(0, 0, 0, 0.15);
 }
 
-/* Neutral (zinc) dark values â€” scoped to dark dashboard and dark portaled elements */
+/* Neutral (zinc) dark values — scoped to dark dashboard and dark portaled elements */
 [data-theme="dark"] .aeg-dash,
 .aeg-dash[data-theme="dark"],
 [data-theme="dark"] [data-slot="dropdown-menu-content"],
@@ -151,7 +199,7 @@
     --crimson-br:   #27272a; /* monochrome dark gray */
     --crimson-deep: #000000; /* monochrome pure black */
     --crimson-tint: rgba(9, 9, 11, 0.045);
-    --ok:           #15803D; /* forest green â€” real semantic color */
+    --ok:           #15803D; /* forest green — real semantic color */
     --info:         #1D4ED8; /* sapphire blue */
     --warn:         #B45309; /* burnt amber */
     --bad:          #DC2626; /* signal red */
@@ -687,7 +735,7 @@
     overflow: hidden;
     z-index: 1;
   }
-  /* Tactile press feedback â€” subtle, interruptible scale on click. */
+  /* Tactile press feedback — subtle, interruptible scale on click. */
   .btn:active { transform: scale(.96); }
   
   .btn::before,
@@ -771,7 +819,7 @@
     z-index: -1;
     transition: width 0.72s cubic-bezier(0.19, 1, 0.22, 1), height 0.72s cubic-bezier(0.19, 1, 0.22, 1);
   }
-  /* Hover: invert to white (lift and scale) â€” text + icon go crimson. */
+  /* Hover: invert to white (lift and scale) — text + icon go crimson. */
   .btn-cta-primary:hover {
     transform: translateY(-2px) scale(1.02);
     color: var(--crimson) !important;
@@ -819,7 +867,7 @@
     .card-lift, .card-lift:hover { transition: none; transform: none; }
   }
 
-  /* ============ SHIFT SECTION â€” premium banded before/after ============ */
+  /* ============ SHIFT SECTION — premium banded before/after ============ */
   .shift-card {
     position: relative; overflow: hidden; display: flex; flex-direction: column;
     transition: box-shadow .55s var(--ease), border-color .55s var(--ease), transform .5s var(--ease), filter .55s var(--ease);
@@ -836,12 +884,12 @@
     box-shadow: 0 0 18px -1px rgba(var(--accent-rgb),.55), 0 1px 0 rgba(255,255,255,.4) inset;
   }
 
-  /* LOSER recedes â€” cool, flat, faintly drained of life */
+  /* LOSER recedes — cool, flat, faintly drained of life */
   .shift-card--before {
     background: linear-gradient(180deg, var(--paper-2), var(--paper));
     filter: saturate(.94);
   }
-  /* WINNER elevates â€” warm surface, copper wash, deep premium lift */
+  /* WINNER elevates — warm surface, copper wash, deep premium lift */
   .shift-card--after {
     background:
       radial-gradient(150% 90% at 50% -16%, rgba(var(--accent-rgb),.06), transparent 56%),
@@ -863,7 +911,7 @@
     background: radial-gradient(120% 80% at 50% -10%, rgba(var(--accent-rgb),.05), transparent 60%);
   }
 
-  /* band 1 â€” padded header: dot + mono label + status chip */
+  /* band 1 — padded header: dot + mono label + status chip */
   .shift-head {
     display: flex; align-items: center; gap: 11px;
     padding: 24px 30px 22px; position: relative; z-index: 1;
@@ -889,7 +937,7 @@
     box-shadow: 0 1px 0 rgba(255,255,255,.6) inset;
   }
 
-  /* band 2 â€” flush full-bleed mockup pane */
+  /* band 2 — flush full-bleed mockup pane */
   .shift-pane {
     flex: 1 1 auto; display: flex; flex-direction: column; justify-content: center;
     gap: 22px; padding: 30px 30px 0;
@@ -903,7 +951,7 @@
   .shift-card--before .mock-sheet { filter: grayscale(.55) saturate(.7); transition: filter .45s var(--ease); }
   .shift-card--before:hover .mock-sheet { filter: grayscale(0) saturate(1); }
 
-  /* premium full-bleed status bar â€” the verdict metric */
+  /* premium full-bleed status bar — the verdict metric */
   .shift-cap {
     display: flex; align-items: center; gap: 10px;
     margin: 0 -30px; padding: 13px 30px;
@@ -920,7 +968,7 @@
   .shift-cap--ok .sq { background: var(--crimson); box-shadow: 0 0 7px rgba(var(--accent-rgb),.55); }
   .shift-cap--ok b   { color: var(--crimson-deep); }
 
-  /* band 3 â€” padded feature footer */
+  /* band 3 — padded feature footer */
   .shift-feats { display: flex; flex-direction: column; padding: 10px 30px 22px; position: relative; z-index: 1; }
   .shift-feat {
     display: flex; gap: 13px; align-items: flex-start;
@@ -945,7 +993,7 @@
   [data-theme="dark"] .shift-card--before .shift-pane { background: rgba(255,255,255,.012); }
   [data-theme="dark"] .shift-card--after .shift-pane { background: rgba(var(--accent-rgb),.04); }
 
-  /* center transformation connector â€” signals the "shift" from old â†’ new */
+  /* center transformation connector — signals the "shift" from old → new */
   .shift-grid { position: relative; }
   .shift-connector {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -1348,7 +1396,7 @@
     width: 60px; height: 60px; flex-shrink: 0; color: var(--crimson); opacity: 0.12; pointer-events: none; margin-left: 6px; display: flex; align-items: center; justify-content: center;
   }
 
-  /* ===== Hero passport â€” data page treatment ===== */
+  /* ===== Hero passport — data page treatment ===== */
   .passport-guilloche {
     position: absolute; inset: 0; z-index: 0; pointer-events: none;
     color: var(--crimson); opacity: .07; overflow: hidden;
@@ -1424,7 +1472,7 @@
   }
   [data-theme="dark"] .pp-seal { opacity: .32; }
 
-  /* machine-readable zone â€” full-bleed authenticity band */
+  /* machine-readable zone — full-bleed authenticity band */
   .passport-mrz {
     position: relative; z-index: 1;
     margin: 18px -32px -26px; padding: 13px 32px 15px;
@@ -1548,7 +1596,7 @@
     background-size: 150% 600px;
     background-repeat: no-repeat;
     color: var(--ink);
-    /* Animated horizontal drift â€” same keyframes on every cell keeps the
+    /* Animated horizontal drift — same keyframes on every cell keeps the
        per-row vertical stitch (background-position-y) perfectly aligned. */
     animation: cmp-drift 14s ease-in-out infinite;
   }
@@ -1698,7 +1746,7 @@
   }
 
   /* ============ SCROLL REVEAL ============ */
-  /* Light, quick rise â€” fires before the element scrolls in (see App.tsx),
+  /* Light, quick rise — fires before the element scrolls in (see App.tsx),
      so it reads as "settling into place", never "fading in late". */
   .sr {
     opacity: 0;
@@ -1978,7 +2026,7 @@
   [data-theme="dark"] [fill="var(--crimson)"]   { fill: var(--crimson); }
   [data-theme="dark"] [stroke="var(--ok)"] { stroke: var(--ok); }
 
-  /* approval notification card: light by default â†’ dark glass under dark theme (inline style needs !important) */
+  /* approval notification card: light by default → dark glass under dark theme (inline style needs !important) */
   [data-theme="dark"] .approval-card {
     background: linear-gradient(168deg, rgba(28,32,40,.96), rgba(16,19,24,.96)) !important;
     border-color: rgba(255,255,255,.12) !important;
@@ -2136,7 +2184,7 @@
     }
   }
 
-  /* Subtle organic drift â€” tighter, slower, less "AI blob screensaver" */
+  /* Subtle organic drift — tighter, slower, less "AI blob screensaver" */
   .gradient-blob-1 {
     transform-box: fill-box;
     transform-origin: center;
@@ -2197,7 +2245,7 @@
     padding-top: 80px;
     padding-bottom: 80px;
   }
-  /* Variable rhythm â€” dense sections breathe less, hero breathes more */
+  /* Variable rhythm — dense sections breathe less, hero breathes more */
   .aeg-section:first-of-type { padding-top: 0; }
   .aeg-section[data-density="tight"] { padding-top: 56px; padding-bottom: 56px; }
   .aeg-section[data-density="airy"]  { padding-top: 120px; padding-bottom: 120px; }
@@ -2929,7 +2977,7 @@
     left: 0;
     right: 0;
     height: 200px;
-    /* Dissolving pixel-dot field (not a checkerboard) â€” reads as data, not a placeholder grid. */
+    /* Dissolving pixel-dot field (not a checkerboard) — reads as data, not a placeholder grid. */
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Crect x='8' y='8' width='2' height='2' fill='rgba(var(--accent-rgb), 0.5)'/%3E%3C/svg%3E");
     background-size: 18px 18px;
     pointer-events: none;
@@ -3046,7 +3094,7 @@
     z-index: -1;
     transition: width 0.72s cubic-bezier(0.19, 1, 0.22, 1), height 0.72s cubic-bezier(0.19, 1, 0.22, 1);
   }
-  /* Hover: invert to white (lift and scale) â€” text goes crimson. */
+  /* Hover: invert to white (lift and scale) — text goes crimson. */
   .btn-cta-new:hover {
     padding: 13.5px 28px;
     transform: translateY(-2px) scale(1.02) !important;
@@ -3973,7 +4021,7 @@
     color: rgba(255, 255, 255, 0.12);
   }
 
-  /* Messy lines styling â€” varied opacity tiers keep the web readable
+  /* Messy lines styling — varied opacity tiers keep the web readable
      without cluttering. One slightly stronger "spine" the eye can track,
      fading into fainter secondary/tertiary strands. */
   .messy-line {
@@ -3992,7 +4040,7 @@
     stroke: rgba(var(--accent-rgb), 0.45);
   }
 
-  /* Footer links that have no destination yet â€” honest "Soon" tag, no jump. */
+  /* Footer links that have no destination yet — honest "Soon" tag, no jump. */
   .footer-link-soon { cursor: default; opacity: .72; display: inline-flex; align-items: center; gap: 7px; }
   .footer-link-soon:hover { color: var(--muted); }
   .footer-soon {
@@ -4063,11 +4111,11 @@
   }
 
   /* ============ PREMIUM SUPPORT HUB ============ */
-  /* Layout shell â€” same horizontal rhythm as the rest of the page */
+  /* Layout shell — same horizontal rhythm as the rest of the page */
   .support-section { position: relative; padding-top: 32px; }
   .support-section > * + * { margin-top: 56px; }
 
-  /* â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Hero ─────────────────────────────────────────────── */
   .support-hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 320px;
@@ -4288,7 +4336,7 @@
     box-shadow: 0 0 0 3px rgba(34,197,94,.12);
   }
 
-  /* â”€â”€ Category cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Category cards ─────────────────────────────────── */
   .support-categories {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -4368,7 +4416,7 @@
     border: 1px solid var(--line);
   }
 
-  /* â”€â”€ Body: TOC + FAQ column â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Body: TOC + FAQ column ─────────────────────────── */
   .support-body {
     display: grid;
     grid-template-columns: 240px minmax(0, 1fr);
@@ -4486,7 +4534,7 @@
   .support-faq-clear:hover { color: var(--crimson); background: rgba(225,29,72,.06); }
   [data-theme="dark"] .support-faq-clear:hover { color: var(--crimson-br); background: rgba(var(--accent-rgb),.10); }
 
-  /* Premium FAQ overrides â€” keeps the existing .faq-* styles, adds the polish */
+  /* Premium FAQ overrides — keeps the existing .faq-* styles, adds the polish */
   .faq-list-premium {
     max-width: none;
     border-top: 1px solid var(--line);
@@ -4627,7 +4675,7 @@
     justify-content: center;
   }
 
-  /* â”€â”€ Contact channels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Contact channels ──────────────────────────────── */
   .support-channels-head {
     max-width: 600px;
     margin-bottom: 28px;
@@ -4743,7 +4791,7 @@
     font-weight: 500;
   }
 
-  /* â”€â”€ Bottom CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Bottom CTA ─────────────────────────────────────── */
   .support-bottom-cta {
     border-radius: 20px;
     border: 1px solid var(--line);
@@ -4974,9 +5022,9 @@
     }
   }
 
-  /* ============ SUPPORT PAGE V2 â€” documentation-style ============ */
+  /* ============ SUPPORT PAGE V2 — documentation-style ============ */
 
-  /* â”€â”€ Top announcement ticker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Top announcement ticker ──────────────────────────────── */
   .support-ticker {
     background:
       linear-gradient(180deg, var(--paper-2), var(--surface));
@@ -5042,10 +5090,10 @@
   }
   .support-ticker-all:hover { color: var(--ink); }
 
-  /* â”€â”€ Page wrap (top padding for nav) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Page wrap (top padding for nav) ─────────────────────── */
   .support-page-wrap { padding-top: 56px; padding-bottom: 96px; }
 
-  /* â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Hero ─────────────────────────────────────────────────── */
   .sp-hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 340px;
@@ -5295,7 +5343,7 @@
   }
   .sp-status-foot:hover { color: var(--crimson); }
 
-  /* â”€â”€ Sidebar + main layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Sidebar + main layout ─────────────────────────────── */
   .sp-layout {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
@@ -5429,7 +5477,7 @@
   }
   .sp-talk-btn:hover { gap: 4px; }
 
-  /* â”€â”€ Main content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Main content ──────────────────────────────────────── */
   .sp-main { display: flex; flex-direction: column; gap: 64px; min-width: 0; }
 
   .sp-section-head {
@@ -5471,7 +5519,7 @@
   }
   .sp-section-link:hover { color: var(--crimson); }
 
-  /* â”€â”€ Featured cards â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Featured cards ────────────────────────────────────── */
   .sp-featured-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -5540,7 +5588,7 @@
     font-size: 12.5px;
   }
 
-  /* â”€â”€ Announcements â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Announcements ─────────────────────────────────────── */
   .sp-ann-list {
     display: flex;
     flex-direction: column;
@@ -5605,7 +5653,7 @@
     white-space: nowrap;
   }
 
-  /* â”€â”€ Article list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Article list ──────────────────────────────────────── */
   .sp-article-list {
     display: flex;
     flex-direction: column;
@@ -5750,7 +5798,7 @@
   }
   .sp-article-link:hover { opacity: .75; }
 
-  /* â”€â”€ Empty state â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Empty state ────────────────────────────────────────── */
   .sp-empty {
     padding: 64px 28px;
     text-align: center;
@@ -5781,7 +5829,7 @@
   }
   .sp-empty-actions { display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
-  /* â”€â”€ Team section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Team section ──────────────────────────────────────── */
   .sp-team-card {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
@@ -5906,7 +5954,7 @@
     animation: aeg-ping 1.8s var(--ease) infinite;
   }
 
-  /* â”€â”€ Newsletter â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Newsletter ────────────────────────────────────────── */
   .sp-news-card {
     display: grid;
     grid-template-columns: 56px minmax(0, 1fr) auto;
@@ -5978,7 +6026,7 @@
   .sp-news-form button:hover { background: var(--crimson); }
   .sp-news-form button.is-sent { background: #16a34a; cursor: default; }
 
-  /* â”€â”€ Support page responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Support page responsive ──────────────────────────── */
   @media (max-width: 1100px) {
     .sp-hero { grid-template-columns: 1fr; gap: 36px; padding: 48px 36px; }
     .sp-hero-side { max-width: 480px; }
@@ -6019,7 +6067,7 @@
     .sp-ann-icon { width: 36px; height: 36px; font-size: 16px; }
   }
 
-  /* ============ SUPPORT PAGE â€” matches dashboard design system ============ */
+  /* ============ SUPPORT PAGE — matches dashboard design system ============ */
   /* Reuses the same zinc-neutral tokens, .ad-card shadow-as-border, and
      premium patterns as the dashboard pages. Scoped under .aeg-dash-support
      so the landing page tokens are unaffected. */
@@ -6090,7 +6138,7 @@
   .aeg-dash-support p { text-wrap: pretty; margin: 0; }
   .aeg-dash-support .display { font-family: 'Bricolage Grotesque', 'Inter', sans-serif; }
 
-  /* â”€â”€ Shell â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Shell ─────────────────────────────────────────────────── */
   .ad-support-shell {
     max-width: 1320px;
     margin: 0 auto;
@@ -6100,7 +6148,7 @@
     gap: 22px;
   }
 
-  /* â”€â”€ Page header (matches .ad-page-title style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Page header (matches .ad-page-title style) ─────────────── */
   .ad-support-header {
     display: flex;
     align-items: flex-end;
@@ -6190,7 +6238,7 @@
     flex: none;
   }
 
-  /* â”€â”€ Search card â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Search card ─────────────────────────────────────────────── */
   .ad-search-card {
     display: flex;
     align-items: center;
@@ -6241,7 +6289,7 @@
     letter-spacing: .02em;
   }
 
-  /* â”€â”€ Chips row â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Chips row ──────────────────────────────────────────────── */
   .ad-chips-row {
     display: flex;
     align-items: center;
@@ -6273,7 +6321,7 @@
     background: var(--d-hover);
   }
 
-  /* â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Layout ─────────────────────────────────────────────────── */
   .ad-support-layout {
     display: grid;
     grid-template-columns: 280px minmax(0, 1fr);
@@ -6282,7 +6330,7 @@
     margin-top: 16px;
   }
 
-  /* â”€â”€ Sidebar (matches ad-side aesthetic) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Sidebar (matches ad-side aesthetic) ───────────────────── */
   .ad-support-side {
     position: sticky;
     top: 96px;
@@ -6356,7 +6404,7 @@
   }
   .ad-talk-desc { font-size: 13px; line-height: 1.55; color: var(--d-muted); }
 
-  /* â”€â”€ Buttons (match dashboard button system) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Buttons (match dashboard button system) ────────────────── */
   .ad-btn {
     display: inline-flex;
     align-items: center;
@@ -6392,7 +6440,7 @@
   .ad-btn-ghost:hover { background: var(--d-hover); }
   .ad-btn-block { width: 100%; }
 
-  /* â”€â”€ Sections â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Sections ───────────────────────────────────────────────── */
   .ad-support-main { display: flex; flex-direction: column; gap: 40px; min-width: 0; }
   .ad-section { display: flex; flex-direction: column; gap: 14px; }
   .ad-section-head {
@@ -6431,13 +6479,13 @@
   }
   .ad-section-link:hover { color: var(--d-ink); }
 
-  /* â”€â”€ Grids â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Grids ─────────────────────────────────────────────────── */
   .ad-grid { display: grid; gap: 14px; }
   .ad-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .ad-grid-2 { grid-template-columns: 1fr 1fr; gap: 16px; }
   .ad-bottom-grid { margin-top: 8px; }
 
-  /* â”€â”€ Featured cards (use .ad-stat-card pattern) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Featured cards (use .ad-stat-card pattern) ─────────────── */
   .ad-featured-card {
     text-align: left;
     cursor: pointer;
@@ -6489,7 +6537,7 @@
   .ad-featured-time { font-variant-numeric: tabular-nums; }
   .ad-featured-arrow { color: var(--d-ink); font-weight: 600; }
 
-  /* â”€â”€ Announcements list (matches .ad-list pattern) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Announcements list (matches .ad-list pattern) ──────────── */
   .ad-ann-list {
     padding: 0 !important;
     overflow: hidden;
@@ -6543,7 +6591,7 @@
     white-space: nowrap;
   }
 
-  /* â”€â”€ Article list (premium card style) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Article list (premium card style) ─────────────────────── */
   .ad-article-list { gap: 10px !important; }
   .ad-article {
     overflow: hidden;
@@ -6681,7 +6729,7 @@
   }
   .ad-article-link:hover { opacity: .65; }
 
-  /* â”€â”€ Empty state (matches .ad-empty-lg) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Empty state (matches .ad-empty-lg) ─────────────────────── */
   .ad-empty-lg {
     padding: 56px 28px;
     text-align: center;
@@ -6713,7 +6761,7 @@
   }
   .ad-empty-actions { display: inline-flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
-  /* â”€â”€ Team + Newsletter cards (bottom row) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Team + Newsletter cards (bottom row) ──────────────────── */
   .ad-team-card, .ad-news-card {
     display: flex;
     flex-direction: column;
@@ -6793,10 +6841,10 @@
   .ad-news-form button:hover { background: var(--d-crimson); }
   .ad-news-form button.is-sent { background: var(--ok); cursor: default; }
 
-  /* â”€â”€ Stack helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Stack helper ──────────────────────────────────────────── */
   .ad-stack { display: flex; flex-direction: column; gap: 8px; }
 
-  /* â”€â”€ Support page responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  /* ── Support page responsive ──────────────────────────────── */
   @media (max-width: 1100px) {
     .ad-support-layout { grid-template-columns: 1fr; gap: 20px; }
     .ad-support-side {
@@ -6988,7 +7036,7 @@
     height: 40px;
     transform: translateY(-50%);
   }
-  /* Hamburger is mobile-only â€” the grouped rule above sets inline-flex for
+  /* Hamburger is mobile-only — the grouped rule above sets inline-flex for
      the theme toggle; reset the menu toggle to none on desktop (it's shown
      again in the max-width:880px query below). */
   .aeg-nav .mobile-menu-toggle { display: none; }
@@ -7048,7 +7096,7 @@
   }
 
   /* ============================================================
-     INTERACTION POLISH â€” full-audit pass
+     INTERACTION POLISH — full-audit pass
      Keyboard focus, cursor affordances, hover-lift, press feedback.
      ============================================================ */
 
@@ -7086,12 +7134,12 @@
     outline-color: var(--crimson-br);
   }
 
-  /* Cursor affordances â€” only genuinely clickable things show a pointer. */
+  /* Cursor affordances — only genuinely clickable things show a pointer. */
   .nav-link, .dropdown-item-card, .footer-link, .pill-badge,
   .faq-q, .theme-toggle, .mobile-menu-toggle,
   .btn, .btn-cta-primary, .btn-capsule-cta, .integration-add { cursor: pointer; }
 
-  /* Live mandate search â€” now editable, so make that obvious. */
+  /* Live mandate search — now editable, so make that obvious. */
   .ledger-search-input { outline: none; cursor: text; }
   .ledger-search-input::placeholder { color: var(--faint); }
   .ledger-search-bar {
@@ -7102,7 +7150,7 @@
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--crimson) 10%, transparent);
   }
 
-  /* Disabled "Connect new tool" (all tools added) â€” stop the hover invite. */
+  /* Disabled "Connect new tool" (all tools added) — stop the hover invite. */
   .integration-add:disabled {
     cursor: default;
     opacity: 0.5;
@@ -7113,14 +7161,14 @@
     background: transparent;
   }
 
-  /* Product feature cards â€” gentle hover-lift (transition already on .card). */
+  /* Product feature cards — gentle hover-lift (transition already on .card). */
   .card.policy-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-lift);
     border-color: rgba(var(--accent-rgb), .18);
   }
 
-  /* Mandate / integration rows â€” light hover highlight to read as live. */
+  /* Mandate / integration rows — light hover highlight to read as live. */
   .ledger-list-item,
   .integration-item {
     transition: border-color .18s var(--ease), background-color .18s var(--ease);
@@ -7306,7 +7354,7 @@
     padding-left: 4px;
   }
 
-  /* ---- CTA floating icons â€” smoother infinite bob ---- */
+  /* ---- CTA floating icons — smoother infinite bob ---- */
   @keyframes cta-bob-smooth {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-10px); }
@@ -7320,7 +7368,7 @@
     will-change: transform, opacity, height;
   }
 
-  /* ---- prefers-contrast: more â€” increase all borders, text weight ---- */
+  /* ---- prefers-contrast: more — increase all borders, text weight ---- */
   @media (prefers-contrast: more) {
     :root {
       --line: rgba(0,0,0,.2);
@@ -7340,7 +7388,7 @@
     }
   }
 
-  /* ---- Reduced motion â€” disable press transforms too ---- */
+  /* ---- Reduced motion — disable press transforms too ---- */
   @media (prefers-reduced-motion: reduce) {
     .footer-newsletter-btn:active,
     .footer-standards-badge:active,
@@ -7570,68 +7618,3 @@
     height: 550px;
   }
 }
-
-/* ── Blog prose styles ────────────────────────────────────────────── */
-.blog-prose {
-  color: rgba(255,255,255,0.72);
-  font-size: 17px;
-  line-height: 1.75;
-  font-family: inherit;
-}
-.blog-prose h1,
-.blog-prose h2,
-.blog-prose h3,
-.blog-prose h4 {
-  color: #fff;
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  line-height: 1.2;
-}
-.blog-prose h1 { font-size: 2rem; }
-.blog-prose h2 { font-size: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 8px; }
-.blog-prose h3 { font-size: 1.2rem; }
-.blog-prose h4 { font-size: 1rem; }
-.blog-prose p { margin-bottom: 1.25rem; }
-.blog-prose ul {
-  list-style: disc;
-  padding-left: 1.5rem;
-  margin-bottom: 1.25rem;
-}
-.blog-prose ul li { margin-bottom: 0.4rem; }
-.blog-prose ol {
-  list-style: decimal;
-  padding-left: 1.5rem;
-  margin-bottom: 1.25rem;
-}
-.blog-prose strong { color: #fff; font-weight: 600; }
-.blog-prose em { font-style: italic; }
-.blog-prose a { color: #fff; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,0.3); }
-.blog-prose a:hover { text-decoration-color: rgba(255,255,255,0.8); }
-.blog-prose code {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.85em;
-  background: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.7);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-.blog-prose pre {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 20px 24px;
-  overflow-x: auto;
-  margin-bottom: 1.5rem;
-  font-size: 14px;
-}
-.blog-prose blockquote {
-  border-left: 3px solid rgba(255,255,255,0.15);
-  padding-left: 1.25rem;
-  color: rgba(255,255,255,0.5);
-  font-style: italic;
-  margin-bottom: 1.25rem;
-}
-.blog-prose hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 2rem 0; }

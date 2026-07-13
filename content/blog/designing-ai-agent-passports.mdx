@@ -1,0 +1,62 @@
+---
+title: "Designing Passports for AI Agents: Access, Mandates, Ledger"
+date: "July 12 2026"
+description: "A practical model for AI agent passports that bundle identity, access, scoped mandates, and traceable execution into one operational object."
+category: "Governance"
+author: "AgentTag Team"
+---
+
+As agent systems mature, teams need a cleaner abstraction than “a prompt plus some tools.” One useful way to think about this is the agent passport: a packaged operational identity that tells the system who the agent is, what it can access, what rules govern it, and how its actions are recorded.
+
+The passport idea is powerful because it brings fragmented control into one object. Instead of scattering identity, secrets, permissions, approval logic, and logging across multiple layers, the passport turns them into a coherent operational unit.
+
+### What belongs in an agent passport
+
+A practical passport for an AI agent should contain or reference four core elements.
+
+#### 1. Identity
+
+The passport must uniquely identify the agent and distinguish it from users, human admins, and other agents. This is what enables attribution, review, and lifecycle management.
+
+#### 2. Access bindings
+
+The passport should define what credentials, connectors, or delegated authorities the agent may use. Access should be limited to the tools required for the mandate, not to everything that might someday be useful.
+
+#### 3. Scoped mandate and policy hooks
+
+The passport should include the rules that describe permitted actions, environmental limits, escalation conditions, and policy checkpoints. This lets the system evaluate whether an intended action is valid before it happens.
+
+#### 4. Ledger linkage
+
+The passport should be tied to a durable record of actions, decisions, approvals, and outcomes. That is what turns identity and permissions into accountable operations.
+
+### Why this model helps
+
+The passport model helps because it is operationally legible. When an incident occurs, the team can inspect one object and ask: Who was this agent? What was it allowed to do? What rule fired? What happened? 
+
+It also helps at scale. As organizations move from one or two agents to many, passport-style encapsulation reduces ambiguity and makes governance repeatable.
+
+### Example scenario
+
+Imagine a support agent that can read tickets, search documentation, draft responses, and send low-risk replies automatically. Its passport could define:
+
+- Support-agent identity. 
+- Access to ticketing and knowledge systems only. 
+- No billing changes, no refunds, no external data exports. 
+- Auto-send only for low-risk categories. 
+- Approval required for refunds, account changes, or legal topics. 
+- Full action log linked to every send and decision. 
+
+That is much more robust than “the bot has API keys and some instructions.”
+
+### Passports should be inspectable and revocable
+
+A passport is only useful if teams can inspect and revoke it easily. If operations staff cannot see the current access, policy state, and action history of an agent, the abstraction is incomplete.
+
+### Where AgentTag fits
+
+AgentTag’s framing around agent identity, mandates, approvals, and traceable execution makes the passport model especially relevant. It is a strong way to explain the product because it is intuitive for builders and precise enough for operations teams.
+
+**CTA:** A serious agent needs more than instructions. It needs a passport. AgentTag is built to provide that operational object.
+
+---

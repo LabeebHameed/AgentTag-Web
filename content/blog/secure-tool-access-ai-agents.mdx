@@ -1,0 +1,57 @@
+---
+title: "Secure Tool Access for AI Agents: IAM, Secrets, and Policies"
+date: "July 12 2026"
+description: "A practical guide to secure tool access for AI agents using identity, least privilege, secret management, and policy enforcement."
+category: "Governance"
+author: "AgentTag Team"
+---
+
+The moment an AI agent gets tool access, it becomes a security subject, not just a productivity feature. That means teams need to think in terms of IAM, secret handling, least privilege, and policy enforcement, not just prompts and connectors.
+
+This is where many otherwise strong agent demos begin to look fragile. The workflow feels magical, but the underlying access model is often too broad, too human-dependent, or too difficult to audit.
+
+### The core problem
+
+Most agent systems need credentials to do useful work. They may need access to CRMs, ticketing platforms, databases, cloud services, document systems, or billing tools.
+
+If those permissions are granted too broadly, the agent’s blast radius expands quickly. If they are granted through human credentials, attribution and revocation become harder.
+
+### The secure access model
+
+A safer model has four parts.
+
+#### 1. Separate identity
+
+Each agent should have its own identity so access is attributable and independently revocable.
+
+#### 2. Least-privilege credentials
+
+The agent should receive only the credentials necessary for its current mandate. Access should be narrow by action, resource, and environment whenever possible.
+
+#### 3. Policy checkpoint before execution
+
+Even valid credentials should not be enough on their own. Sensitive actions should still pass through a policy or approval check before execution.
+
+#### 4. Logging and review
+
+Every meaningful access and action should be recorded so the team can trace decisions, investigate incidents, and tune mandates over time.
+
+### Secrets are not governance
+
+A common misconception is that secret management alone solves the problem. Secure secret storage is necessary, but it does not answer whether the agent should be allowed to use that secret for a particular action in a particular context.
+
+That is why identity, mandate, and policy have to sit above raw secret storage.
+
+### Practical examples
+
+A support agent may need read access to tickets and knowledge docs, but not refund authority. A deployment agent may need staging permissions by default and separate approval for production changes.
+
+These distinctions are the difference between automation that can scale safely and automation that quietly accumulates risk.
+
+### Where AgentTag fits
+
+AgentTag is relevant because it treats tool access as part of an identity-and-governance model rather than a loose bundle of API keys. That is the architecture teams need once agents move from internal experiments to trusted operations.
+
+**CTA:** If your AI agents touch real systems, secure access needs to be designed as policy plus identity, not credentials alone. AgentTag helps provide that layer.
+
+---

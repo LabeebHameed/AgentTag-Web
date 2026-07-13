@@ -8,39 +8,38 @@ import { isSupportHash, readStubSlug, STUB_ROUTES, type StubSlug } from './route
 const SupportPage = lazy(() => import('./SupportPage'))
 const StubPage = lazy(() => import('./StubPage'))
 const NotFoundPage = lazy(() => import('./NotFoundPage'))
+const BlogPage = lazy(() => import('./BlogPage'))
+const BlogPostPage = lazy(() => import('./BlogPostPage'))
 
 export type { StubSlug } from './routes'
 
-export default function Router() {
-  const [route, setRoute] = useState<'support' | 'notfound' | StubSlug | null>(() => {
-    if (isSupportHash()) return 'support'
-    const stub = readStubSlug()
-    if (stub) return stub
+type RouteState = 'support' | 'notfound' | 'blog-index' | StubSlug | null
+type BlogPostRoute = { type: 'blog-post'; slug: string }
 
-    const path = window.location.pathname
-    const hash = window.location.hash
-    if ((path === '/' || path === '') && (hash === '' || hash === '#/')) return null
-    return 'notfound'
-  })
+function detectRoute(): RouteState | BlogPostRoute {
+  if (isSupportHash()) return 'support'
+  const path = window.location.pathname
+  const hash = window.location.hash
+
+  // /blog/:slug — individual post
+  const blogPostMatch = path.match(/^\/blog\/([^/]+)\/?$/)
+  if (blogPostMatch) return { type: 'blog-post', slug: blogPostMatch[1] }
+
+  // /blog — index
+  if (path === '/blog' || path === '/blog/') return 'blog-index'
+
+  const stub = readStubSlug()
+  if (stub) return stub
+
+  if ((path === '/' || path === '') && (hash === '' || hash === '#/')) return null
+  return 'notfound'
+}
+
+export default function Router() {
+  const [route, setRoute] = useState<RouteState | BlogPostRoute>(detectRoute)
 
   useEffect(() => {
-    const on = () => {
-      if (isSupportHash()) setRoute('support')
-      else {
-        const stub = readStubSlug()
-        if (stub) {
-          setRoute(stub)
-        } else {
-          const path = window.location.pathname
-          const hash = window.location.hash
-          if ((path === '/' || path === '') && (hash === '' || hash === '#/')) {
-            setRoute(null)
-          } else {
-            setRoute('notfound')
-          }
-        }
-      }
-    }
+    const on = () => setRoute(detectRoute())
     window.addEventListener('hashchange', on)
     window.addEventListener('popstate', on)
 
@@ -85,6 +84,20 @@ export default function Router() {
       </Suspense>
     )
   }
+  if (route === 'blog-index') {
+    return (
+      <Suspense fallback={fallback}>
+        <BlogPage />
+      </Suspense>
+    )
+  }
+  if (route && typeof route === 'object' && route.type === 'blog-post') {
+    return (
+      <Suspense fallback={fallback}>
+        <BlogPostPage slug={route.slug} />
+      </Suspense>
+    )
+  }
   if (route === 'notfound') {
     return (
       <Suspense fallback={fallback}>
@@ -92,10 +105,10 @@ export default function Router() {
       </Suspense>
     )
   }
-  if (route && (STUB_ROUTES as readonly string[]).includes(route)) {
+  if (route && typeof route === 'string' && (STUB_ROUTES as readonly string[]).includes(route)) {
     return (
       <Suspense fallback={fallback}>
-        <StubPage slug={route} />
+        <StubPage slug={route as StubSlug} />
       </Suspense>
     )
   }

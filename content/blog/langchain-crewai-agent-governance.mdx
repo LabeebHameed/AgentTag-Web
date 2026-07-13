@@ -1,0 +1,54 @@
+---
+title: "Governing LangChain and CrewAI Agents with an External Policy Layer"
+date: "July 12 2026"
+description: "Learn how to govern LangChain and CrewAI agents with identity, policy checks, approvals, and auditable execution outside the framework itself."
+category: "Governance"
+author: "AgentTag Team"
+---
+
+Frameworks like LangChain and CrewAI make it easier to build agents, but orchestration is not the same thing as governance. A framework can coordinate tools and steps, yet still leave big questions unanswered about identity, access boundaries, approvals, and auditability.
+
+That is why mature teams often need an external policy layer. The framework handles execution logic, while the governance layer decides whether the agent should be allowed to perform a given action in the first place.
+
+### Why governance should live outside the framework
+
+If governance rules are deeply embedded inside agent code, they become harder to inspect, harder to update consistently, and easier to bypass during fast iteration. An external layer gives teams a cleaner separation between “what the workflow wants to do” and “what the organization permits it to do.”
+
+This also matters when multiple frameworks coexist. A common policy layer allows teams to govern LangChain, CrewAI, internal runtimes, and future systems without rewriting core controls for each one.
+
+### What the external layer should do
+
+A strong external policy layer should perform four core functions.
+
+- Identify the agent as a first-class actor. 
+- Validate intended actions against scoped mandates. 
+- Trigger approvals for high-risk cases. 
+- Emit auditable records for every decision and action. 
+
+The framework still handles chain execution, tool selection, and state flow. But it should not be the sole system of trust.
+
+### A practical architecture
+
+A practical pattern looks like this:
+
+1. The agent runtime prepares an intended tool call. 
+2. That call is sent to an external governance service. 
+3. The service checks identity, mandate, environment, and policy conditions. 
+4. If needed, the action is escalated for approval. 
+5. If approved, the execution proceeds and both the verdict and outcome are logged. 
+
+This pattern creates consistency across workflows and makes policy changeable without editing agent logic every time.
+
+### The biggest benefit: controlled iteration
+
+Agent teams change prompts, tools, and workflow logic constantly. If the control model is externalized, teams can keep iterating quickly while preserving hard boundaries on what agents may actually do.
+
+That is the real advantage. Governance stops being a brake on shipping and becomes an interface between experimentation and trust.
+
+### Where AgentTag fits
+
+AgentTag makes sense as that external layer because its core value is not a single framework integration. It is the identity-and-governance plane wrapped around whichever agent runtime the team prefers.
+
+**CTA:** If your agents run in LangChain, CrewAI, or something custom, the governance layer should still be consistent. AgentTag is designed to provide that consistency.
+
+---
