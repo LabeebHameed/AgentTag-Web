@@ -194,10 +194,12 @@ function AgenttagSidebar({ route, onOpenWizard, dark }: {
       <SidebarHeader className="h-(--app-header-height,3rem) flex-row items-center justify-between group-data-[collapsible=icon]:justify-center">
         <a href="/app/dashboard" className="flex items-center gap-2 px-1.5 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:mx-auto">
           <img
-            src={dark ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"}
+            src="/favicon.svg"
             alt="AgentTag"
             className="h-5 w-auto"
-            style={{ outline: "none" }}
+            style={{ outline: "none", filter: dark ? "invert(1)" : "none" }}
+            width={20}
+            height={20}
           />
           <span className="font-semibold tracking-tight group-data-[collapsible=icon]:hidden">AgentTag</span>
         </a>

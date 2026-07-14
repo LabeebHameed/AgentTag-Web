@@ -127,7 +127,7 @@ export default function SupportPage() {
   const countByCategory = (cat: string) =>
     cat === "all" ? faqItems.length : faqItems.filter((i) => i.cat === cat).length
 
-  const logoSrc = "/logo_bgremoved_inverted.png"
+  const logoSrc = "/favicon.svg"
 
   const onNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -552,7 +552,7 @@ export default function SupportPage() {
           <div className="footer-top-row">
             <div className="footer-brand-col">
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                <img src={logoSrc} alt="AgentTag" height="24" style={{ height: "24px", width: "auto", outline: "none" }} />
+                 <img src={logoSrc} alt="AgentTag" height="24" width="24" style={{ height: "24px", width: "auto", outline: "none", filter: "invert(1)" }} />
                 <span style={{ fontWeight: 800, fontSize: 20, letterSpacing: "-0.3px", color: "var(--ink)", textTransform: "uppercase", fontFamily: "'Bricolage Grotesque', sans-serif" }}>AgentTag</span>
               </div>
               <p className="footer-brand-tagline">The control plane for delegated agent identity. Your agent, its own passport.</p>

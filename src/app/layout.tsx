@@ -192,7 +192,7 @@ export default function RootLayout({
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
               <a href="https://agenttag.me" className="flex items-center gap-2 transition-opacity hover:opacity-70">
-                <img src="/logo.png" alt="AgentTag Logo" height={24} width={24} className="h-6 w-auto" />
+                <img src="/favicon.svg" alt="AgentTag Logo" height={24} width={24} style={{ filter: 'invert(1)' }} className="h-6 w-auto" />
                 <span className="font-display text-sm font-bold text-foreground">AgentTag</span>
               </a>
               <nav aria-label="Footer navigation" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">

@@ -682,11 +682,11 @@ function App() {
     <div style={{display: "flex", alignItems: "center", gap: "34px"}}>
       <a href="#top" style={{display: "flex", alignItems: "center", gap: "10px", textDecoration: "none"}}>
         <img 
-          src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"}
+          src="/favicon.svg"
           alt="AgentTag Logo" 
           height="24" 
           width="24" 
-          style={{ height: "24px", width: "auto", outline: "none" }} 
+          style={{ height: "24px", width: "auto", outline: "none", filter: theme === 'dark' ? 'invert(1)' : 'none' }} 
           className="brand-logo-img" 
         />
         <span className="brand-logo-text">AgentTag</span>
@@ -1731,7 +1731,7 @@ function App() {
 <div className="approval-visual-col">
 <div className="approval-card" style={{position: "relative", width: "100%", maxWidth: "320px", borderRadius: "8px", padding: "22px", background: "var(--paper-2)", WebkitBackdropFilter: "blur(16px) saturate(1.4)", backdropFilter: "blur(16px) saturate(1.4)", border: "1px solid var(--line)", boxShadow: "var(--shadow-lift)"}}>
 <div style={{display: "flex", alignItems: "center", gap: "9px", marginBottom: "16px"}}>
-  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="18" width="18" style={{ height: "18px", width: "auto", outline: "none" }} />
+  <img src="/favicon.svg" alt="AgentTag" height="18" width="18" style={{ height: "18px", width: "auto", outline: "none", filter: theme === 'dark' ? 'invert(1)' : 'none' }} />
 <span style={{fontWeight: "700", fontSize: "13px", color: "var(--ink)"}}>AgentTag</span>
 {(() => {
   const chip = {
@@ -1804,7 +1804,7 @@ function App() {
 <div className="card card-spotlight" style={{padding: "0", overflow: "hidden", display: "flex", flexDirection: "column"}}>
 <div style={{padding: "30px 32px 26px"}}>
 <div style={{display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px"}}>
-  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="19" width="19" style={{ height: "19px", width: "auto", outline: "none" }} />
+  <img src="/favicon.svg" alt="AgentTag" height="19" width="19" style={{ height: "19px", width: "auto", outline: "none", filter: theme === 'dark' ? 'invert(1)' : 'none' }} />
 <span style={{fontWeight: "600", fontSize: "18px", color: "var(--ink)"}}>The Passport</span>
 </div>
 <p style={{margin: "0", fontSize: "15px", lineHeight: "1.62", color: "var(--muted)"}}>Every agent gets its own cryptographic DID and signing key. Revoke it once and its authority stops.</p>
@@ -2340,7 +2340,7 @@ function App() {
 <div className="footer-top-row">
 <div className="footer-brand-col">
 <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
-  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="24" width="24" style={{ height: "24px", width: "auto", outline: "none" }} />
+  <img src="/favicon.svg" alt="AgentTag" height="24" width="24" style={{ height: "24px", width: "auto", outline: "none", filter: theme === 'dark' ? 'invert(1)' : 'none' }} />
 <span style={{fontWeight: "800", fontSize: "20px", letterSpacing: "-0.3px", color: "var(--ink)", textTransform: "uppercase", fontFamily: "'Bricolage Grotesque', sans-serif"}}>AgentTag</span>
 </div>
 <p className="footer-brand-tagline">The control plane for delegated agent identity. Your agent, its own passport.</p>
