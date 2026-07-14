@@ -6400,7 +6400,7 @@
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .12em;
-    color: var(--d-crimson);
+    color: var(--d-muted);
   }
   .ad-talk-desc { font-size: 13px; line-height: 1.55; color: var(--d-muted); }
 

@@ -112,16 +112,6 @@ export default function SupportPage() {
   const [newsletterEmail, setNewsletterEmail] = useState("")
   const [newsletterSent, setNewsletterSent] = useState(false)
   const [newsletterStatus, setNewsletterStatus] = useState("")
-  const [theme, setTheme] = useState<string>(() => {
-    try { return localStorage.getItem("aeg-theme") || "light" } catch { return "light" }
-  })
-
-  useEffect(() => {
-    const root = document.documentElement
-    if (theme === "dark") root.setAttribute("data-theme", "dark")
-    else root.removeAttribute("data-theme")
-    try { localStorage.setItem("aeg-theme", theme) } catch { /* ignore */ }
-  }, [theme])
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -137,7 +127,7 @@ export default function SupportPage() {
   const countByCategory = (cat: string) =>
     cat === "all" ? faqItems.length : faqItems.filter((i) => i.cat === cat).length
 
-  const logoSrc = theme === "dark" ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"
+  const logoSrc = "/logo_bgremoved_inverted.png"
 
   const onNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -188,30 +178,6 @@ export default function SupportPage() {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <button
-                aria-label="Toggle dark mode"
-                className="theme-toggle"
-                title="Toggle dark mode"
-                type="button"
-                onClick={() => setTheme((p) => (p === "dark" ? "light" : "dark"))}
-              >
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.span
-                    key={theme}
-                    initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-                    transition={{ type: "spring", duration: 0.3, bounce: 0 }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    {theme === "dark" ? (
-                      <svg className="t-moon" fill="none" height="16" viewBox="0 0 24 24" width="16"><path d="M20 13.5A8 8 0 1 1 10.5 4a6.3 6.3 0 0 0 9.5 9.5z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.6"></path></svg>
-                    ) : (
-                      <svg className="t-sun" fill="none" height="16" viewBox="0 0 24 24" width="16"><circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.6"></circle><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.6"></path></svg>
-                    )}
-                  </motion.span>
-                </AnimatePresence>
-              </button>
               <a className="btn-capsule-cta" href="/">Back to home</a>
             </div>
           </div>
