@@ -158,31 +158,8 @@ export default function SupportPage() {
   }
 
   return (
-    <div className="aeg-page aeg-dash aeg-dash-support">
+    <div className="aeg-page aeg-dash aeg-dash-support pt-6">
       <a className="skip-link" href="#main">Skip to main content</a>
-
-      {/* ── Top nav (matches landing shell, scope-aware) ───────── */}
-      <div className="aeg-nav-container">
-        <nav className="aeg-nav" aria-label="Main navigation">
-          <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0 40px", maxWidth: "100%" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "34px" }}>
-              <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-                <img src={logoSrc} alt="AgentTag Logo" height="24" style={{ height: "24px", width: "auto", outline: "none" }} className="brand-logo-img" />
-                <span className="brand-logo-text">AgentTag</span>
-              </a>
-              <div className="hide-sm" style={{ display: "flex", alignItems: "center", gap: "2px" }}>
-                <a className="nav-link" href="/">Product</a>
-                <a className="nav-link" href="/">Pricing</a>
-                <a className="nav-link" href="/">Docs</a>
-                <a className="nav-link is-active" href="/support" aria-current="page">Support</a>
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <a className="btn-capsule-cta" href="/">Back to home</a>
-            </div>
-          </div>
-        </nav>
-      </div>
 
       <main id="main">
         <div className="ad-support-shell">

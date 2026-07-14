@@ -203,27 +203,7 @@ function App() {
 
 
 
-  const [theme, setTheme] = useState(() => {
-    try {
-      return localStorage.getItem("aeg-theme") || "light";
-    } catch {
-      return "light";
-    }
-  });
-
-  useEffect(() => {
-    const root = document.documentElement;
-    if (theme === 'dark') {
-      root.setAttribute('data-theme', 'dark');
-    } else {
-      root.removeAttribute('data-theme');
-    }
-    try {
-      localStorage.setItem("aeg-theme", theme);
-    } catch {
-      // ignore
-    }
-  }, [theme]);
+  const theme = "dark";
 
   // Mouse position tracking for premium CTA buttons
   useEffect(() => {
@@ -745,24 +725,7 @@ function App() {
     </div>
     
     <div style={{display: "flex", alignItems: "center", gap: "8px"}}>
-      <button aria-label="Toggle dark mode" className="theme-toggle" id="themeToggle" title="Toggle dark mode" type="button" onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}>
-        <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
-            key={theme}
-            initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-            transition={{ type: "spring", duration: 0.3, bounce: 0 }}
-            style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-          >
-            {theme === 'dark' ? (
-              <svg className="t-moon" fill="none" height="16" viewBox="0 0 24 24" width="16"><path d="M20 13.5A8 8 0 1 1 10.5 4a6.3 6.3 0 0 0 9.5 9.5z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.6"></path></svg>
-            ) : (
-              <svg className="t-sun" fill="none" height="16" viewBox="0 0 24 24" width="16"><circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.6"></circle><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.6"></path></svg>
-            )}
-          </motion.span>
-        </AnimatePresence>
-      </button>
+
       <button aria-expanded={mobileMenuOpen} aria-label="Toggle menu" className="mobile-menu-toggle" id="mobileMenuToggle" type="button" onClick={() => setMobileMenuOpen(prev => !prev)}>
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.span
