@@ -142,7 +142,7 @@ export default function SupportPage() {
   const onNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!newsletterEmail.includes("@")) return
-    const endpoint = import.meta.env.VITE_NEWSLETTER_ENDPOINT;
+    const endpoint = process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT;
     if (endpoint) {
       fetch(endpoint, {
         method: 'POST',

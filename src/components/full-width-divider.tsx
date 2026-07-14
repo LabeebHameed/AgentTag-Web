@@ -15,7 +15,7 @@ export function FullWidthDivider({
 		<div
 			aria-hidden="true"
 			className={cn(
-				"pointer-events-none absolute h-px bg-border",
+				"pointer-events-none absolute h-px bg-border/20",
 				// full-bleed (default)
 				"data-[contained=false]:left-1/2 data-[contained=false]:w-screen data-[contained=false]:-translate-x-1/2",
 				// contained

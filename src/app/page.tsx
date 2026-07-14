@@ -523,7 +523,7 @@ function App() {
       }
       return;
     }
-    const endpoint = import.meta.env?.VITE_NEWSLETTER_ENDPOINT;
+    const endpoint = process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT;
     if (endpoint) {
       fetch(endpoint, {
         method: 'POST',
@@ -1054,7 +1054,7 @@ function App() {
             {showcaseTab === 'overview' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
-                  <div className="ad-main" style={{ minHeight: "0", height: "100%" }}>
+                  <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
                     <OverviewPage onNav={() => {}} />
                   </div>
                 </div>
@@ -1063,7 +1063,7 @@ function App() {
             {showcaseTab === 'governance' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
-                  <div className="ad-main" style={{ minHeight: "0", height: "100%" }}>
+                  <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
                     <GovernancePage />
                   </div>
                 </div>
@@ -1072,7 +1072,7 @@ function App() {
             {showcaseTab === 'inbox' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
-                  <div className="ad-main" style={{ minHeight: "0", height: "100%" }}>
+                  <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
                     <InboxPage onNav={() => {}} />
                   </div>
                 </div>
@@ -1081,7 +1081,7 @@ function App() {
             {showcaseTab === 'wizard' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
-                  <div className="ad-main" style={{ minHeight: "0", height: "100%" }}>
+                  <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
                     <Wizard onClose={() => setShowcaseTab('overview')} onFinish={() => setShowcaseTab('overview')} onNav={() => {}} />
                   </div>
                 </div>

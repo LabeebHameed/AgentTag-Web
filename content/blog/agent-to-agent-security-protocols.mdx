@@ -1,0 +1,49 @@
+---
+title: "Securing Agent-to-Agent (A2A) Workflows in Multi-Agent Systems"
+date: "July 14 2026"
+description: "As multi-agent systems grow, securing communication between agents is critical. Learn about Agent-to-Agent (A2A) security, signature verification, and delegation."
+category: "Security"
+author: "AgentTag Security Team"
+---
+
+Autonomous systems are evolving from single-agent loops to complex **multi-agent architectures**. In these pipelines, specialized agents coordinate with one another to complete complex workflows—for example, a coordinator agent assigning code compilation tasks to a compiler agent and deployment tasks to a deployment agent.
+
+This architecture introduces a new security boundary: **Agent-to-Agent (A2A) communication**. 
+
+If sub-agents do not verify who is calling them or whether the caller has the necessary authority, a security compromise in one agent can easily cascade across your entire fleet. Securing A2A workflows requires moves away from broad service accounts toward cryptographic identity and explicit delegation.
+
+## The Risks of Ungoverned A2A Communication
+
+Multi-agent frameworks like CrewAI, AutoGen, and LangGraph make it easy for agents to exchange messages, but they lack built-in security controls. In an unsecured setup, systems face three primary risks:
+
+### 1. Cascading Hijacks
+If an agent tasked with reading customer support tickets is compromised via prompt injection, and it has unrestricted access to call a database agent, the attacker can leverage the A2A channel to extract database records. The database agent executes the query simply because the request came from another agent in the network.
+
+### 2. Privilege Escalation
+Without scoped A2A boundaries, lower-privileged agents can instruct higher-privileged agents to run administrative tasks. A research assistant agent should never have the authority to instruct a server provisioning agent to deploy new compute instances.
+
+### 3. Lack of Attributable Trust
+In multi-hop workflows, tracing the origin of a request becomes difficult. If a deployment tool runs, you must be able to prove whether it was initiated by a human operator, the coordinator agent, or a misbehaving sub-agent.
+
+---
+
+## The Cryptographic A2A Security Standard
+
+To secure multi-agent collaboration, teams should deploy a cryptographic governance model based on three principles:
+
+### 1. Unique Agent Passports
+Every agent in the network must have a distinct cryptographic identity—an Ed25519 keypair bound to a W3C DID. Agents must sign all A2A messages with their respective passports. The receiving agent validates the signature to verify the caller's identity before processing the request.
+
+### 2. Signed Mandates for Delegation
+An agent should only delegate tasks that are within its own mandate scope. When Agent A requests a task from Agent B, the request payload should include Agent A's signed mandate, proving that the delegation is authorized by the human operator.
+
+### 3. Verifiable Multi-Hop Auditing
+Each step in an A2A workflow must append a signed entry to the audit ledger. The ledger uses a SHA-256 hash chain to link requests. If Agent C executes a deploy command, the audit trail shows the exact chain of trust: *Operator -> signed Mandate -> Agent A -> signed request -> Agent B -> signed request -> Agent C.*
+
+---
+
+## Secure A2A Workflows with AgentTag
+
+AgentTag provides the identity and policy layer required to secure A2A and multi-agent pipelines. 
+
+By issuing distinct passports to every agent role in your framework (whether building with CrewAI, LangGraph, or custom code), AgentTag enforces policy validations on every inter-agent call. Actions are checked against active mandates, spend caps are tracked across the entire workflow, and the complete execution chain is logged in a tamper-evident audit ledger. This ensures that a single compromised agent cannot compromise your entire multi-agent system.
