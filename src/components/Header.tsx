@@ -17,7 +17,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="https://agenttag.me" className="flex items-center gap-3 transition-opacity hover:opacity-80">
-          <img src="/logo.png" alt="AgentTag Logo" className="h-7 w-auto" />
+          <img src="/favicon.svg" alt="AgentTag Logo" height={28} width={28} style={{ filter: 'invert(1)' }} className="h-7 w-auto" />
           <span className="font-display text-lg font-bold tracking-tight text-foreground">AgentTag</span>
         </a>
         
