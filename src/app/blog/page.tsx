@@ -8,7 +8,29 @@ export const metadata: Metadata = {
   description: "Learn how to tag, track, and secure AI agents in production. The ultimate resource for Agentic AI governance, identity management, and compliance.",
   alternates: {
     canonical: "https://agenttag.me/blog",
-  }
+  },
+  openGraph: {
+    title: "AI Agent Governance & Identity Blog | AgentTag",
+    description: "Learn how to tag, track, and secure AI agents in production. The ultimate resource for Agentic AI governance, identity management, and compliance.",
+    url: "https://agenttag.me/blog",
+    siteName: "AgentTag",
+    locale: "en_US",
+    type: "website",
+    images: [
+      {
+        url: "/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "AgentTag Blog — AI Agent Governance & Identity",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "AI Agent Governance & Identity Blog | AgentTag",
+    description: "Learn how to tag, track, and secure AI agents in production. The ultimate resource for Agentic AI governance, identity management, and compliance.",
+    images: ["/og.jpg"],
+  },
 };
 
 export default function BlogIndexPage() {

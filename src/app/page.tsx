@@ -104,6 +104,7 @@ const toolIcons: Record<string, React.ReactNode> = {
 
 function App() {
   const [videoLoaded, setVideoLoaded] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const showcaseRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
@@ -112,6 +113,17 @@ function App() {
   const [newsletterStatus, setNewsletterStatus] = useState("");
 
   const isCtaHoveredRef = useRef(false);
+
+  const toggleVideoPlay = () => {
+    if (videoRef.current) {
+      if (isVideoPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play().catch(() => {});
+      }
+      setIsVideoPlaying(!isVideoPlaying);
+    }
+  };
 
   const [showConsent, setShowConsent] = useState(false);
 
@@ -673,6 +685,7 @@ function App() {
           src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"}
           alt="AgentTag Logo" 
           height="24" 
+          width="24" 
           style={{ height: "24px", width: "auto", outline: "none" }} 
           className="brand-logo-img" 
         />
@@ -778,6 +791,19 @@ function App() {
     onPlay={() => setVideoLoaded(true)}
     onLoadedData={() => setVideoLoaded(true)}
   />
+  <button
+    type="button"
+    onClick={toggleVideoPlay}
+    className="video-control-btn"
+    aria-label={isVideoPlaying ? "Pause background animation" : "Play background animation"}
+    title={isVideoPlaying ? "Pause background animation" : "Play background animation"}
+  >
+    {isVideoPlaying ? (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+    ) : (
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+    )}
+  </button>
 {/* ==================== HERO ==================== */}
   {/* Organic SVG liquid mesh gradient background */}
   <div className="hero-svg-bg">
@@ -917,7 +943,7 @@ function App() {
 <span style={{position: "absolute", inset: "0", borderRadius: "50%", background: "var(--ok)", animation: "aeg-ping 1.8s var(--ease) infinite"}}></span>
 <span className="dot" style={{width: "8px", height: "8px", background: "var(--ok)", boxShadow: "0 0 8px var(--ok)"}}></span>
 </span>
-<span>Now in public beta <span style={{opacity: 0.55}}>— free to use</span></span>
+<span>Now in public beta <span style={{opacity: 0.85}}>— free to use</span></span>
 </a>
 <h1 className="display reveal d1" style={{margin: "0", fontSize: "clamp(36px, 5.2vw, 60px)", lineHeight: "1.25", letterSpacing: "-.025em", textAlign: "center", textWrap: "balance"}}>
           Give every agent <span style={{ whiteSpace: "nowrap" }}>its own <RotatingWord />.</span>
@@ -1097,7 +1123,7 @@ function App() {
       </h2>
     </div>
     <div className="shift-header-right">
-      <p style={{margin: "0", fontSize: "16.5px", lineHeight: "1.65", color: "var(--muted)"}}>
+      <p style={{margin: "0", fontSize: "16.5px", lineHeight: "1.65", color: "var(--ink-soft)"}}>
         Wrapper scripts work in a sandbox, but collapse once agents touch money or production systems. AgentTag replaces keys with governed identities, ensuring execution compounds safely instead of drifting.
       </p>
     </div>
@@ -1355,7 +1381,7 @@ function App() {
 <span className="eyebrow-num">02</span><span className="eyebrow-label">The platform</span>
 </div>
 <h2 className="display" style={{margin: "0 0 16px", fontSize: "clamp(33px, 4.6vw, 54px)", lineHeight: "1.05"}}>How does a single control plane <span className="accent-it">govern every agent?</span></h2>
-<p style={{maxWidth: "560px", margin: "0 0 44px", fontSize: "17px", lineHeight: "1.65", color: "var(--muted)"}}>AgentTag sits between your agents and the world. Every action flows through one policy engine, one identity layer, and one tamper‑evident ledger — whatever framework, tool, or cloud you use.</p>
+<p style={{maxWidth: "560px", margin: "0 0 44px", fontSize: "17px", lineHeight: "1.65", color: "var(--ink-soft)"}}>AgentTag sits between your agents and the world. Every action flows through one policy engine, one identity layer, and one tamper‑evident ledger — whatever framework, tool, or cloud you use.</p>
 <div className="gov-flow">
 {/* Your agents */}
 <div className="gov-col">
@@ -1705,7 +1731,7 @@ function App() {
 <div className="approval-visual-col">
 <div className="approval-card" style={{position: "relative", width: "100%", maxWidth: "320px", borderRadius: "8px", padding: "22px", background: "var(--paper-2)", WebkitBackdropFilter: "blur(16px) saturate(1.4)", backdropFilter: "blur(16px) saturate(1.4)", border: "1px solid var(--line)", boxShadow: "var(--shadow-lift)"}}>
 <div style={{display: "flex", alignItems: "center", gap: "9px", marginBottom: "16px"}}>
-  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="18" style={{ height: "18px", width: "auto", outline: "none" }} />
+  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="18" width="18" style={{ height: "18px", width: "auto", outline: "none" }} />
 <span style={{fontWeight: "700", fontSize: "13px", color: "var(--ink)"}}>AgentTag</span>
 {(() => {
   const chip = {
@@ -1772,13 +1798,13 @@ function App() {
 </div>
 </section>
 {/* ==================== PASSPORT + MANDATE ==================== */}
-<section className="aeg-section aeg-wrap">
+<div className="aeg-section aeg-wrap">
 <div className="grid-2" style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "18px"}}>
 {/* Passport */}
 <div className="card card-spotlight" style={{padding: "0", overflow: "hidden", display: "flex", flexDirection: "column"}}>
 <div style={{padding: "30px 32px 26px"}}>
 <div style={{display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px"}}>
-  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="19" style={{ height: "19px", width: "auto", outline: "none" }} />
+  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="19" width="19" style={{ height: "19px", width: "auto", outline: "none" }} />
 <span style={{fontWeight: "600", fontSize: "18px", color: "var(--ink)"}}>The Passport</span>
 </div>
 <p style={{margin: "0", fontSize: "15px", lineHeight: "1.62", color: "var(--muted)"}}>Every agent gets its own cryptographic DID and signing key. Revoke it once and its authority stops.</p>
@@ -1843,7 +1869,7 @@ function App() {
 </div>
 </div>
 </div>
-</section>
+</div>
 {/* ==================== COMPARISON ==================== */}
 <section className="aeg-section aeg-wrap">
 <div className="eyebrow">
@@ -2314,7 +2340,7 @@ function App() {
 <div className="footer-top-row">
 <div className="footer-brand-col">
 <div style={{display: "flex", alignItems: "center", gap: "10px"}}>
-  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="24" style={{ height: "24px", width: "auto", outline: "none" }} />
+  <img src={theme === 'dark' ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"} alt="AgentTag" height="24" width="24" style={{ height: "24px", width: "auto", outline: "none" }} />
 <span style={{fontWeight: "800", fontSize: "20px", letterSpacing: "-0.3px", color: "var(--ink)", textTransform: "uppercase", fontFamily: "'Bricolage Grotesque', sans-serif"}}>AgentTag</span>
 </div>
 <p className="footer-brand-tagline">The control plane for delegated agent identity. Your agent, its own passport.</p>
@@ -2363,7 +2389,7 @@ function App() {
 <a className="footer-link" href="/blog">Blog & Insights</a>
 <a className="footer-link" href="/research">Research</a>
 <a className="footer-link" href="/support">FAQ</a>
-<a className="footer-link" href="https://status.agenttag.me" target="_blank" rel="noopener noreferrer">Status</a>
+<a className="footer-link" href="#" target="_blank" rel="noopener noreferrer">Status</a>
 </div>
 <div>
 <div className="footer-col-title">Socials</div>
