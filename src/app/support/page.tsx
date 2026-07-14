@@ -290,7 +290,7 @@ export default function SupportPage() {
               <div className="ad-card pad ad-talk-card">
                 <div className="ad-talk-eyebrow">Talk to a human</div>
                 <p className="ad-talk-desc">Beta users get a direct line to the founders. Real humans, real answers.</p>
-                <a className="ad-btn ad-btn-ink ad-btn-block" href="mailto:hello@agenttag.me">
+                <a className="ad-btn ad-btn-ink ad-btn-block" href="mailto:contact@agenttag.me">
                   Email support
                   <svg fill="none" height="13" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" viewBox="0 0 24 24" width="13"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
@@ -412,7 +412,7 @@ export default function SupportPage() {
                     <p className="ad-empty-desc">Try a different keyword, browse a topic in the sidebar, or message the team — they reply in under six hours.</p>
                     <div className="ad-empty-actions">
                       <button type="button" className="ad-btn ad-btn-ghost" onClick={() => { setSupportQuery(""); setActiveCategory("all") }}>Reset filters</button>
-                      <a className="ad-btn ad-btn-primary" href="mailto:hello@agenttag.me">Email the team</a>
+                      <a className="ad-btn ad-btn-primary" href="mailto:contact@agenttag.me">Email the team</a>
                     </div>
                   </div>
                 ) : (
@@ -485,7 +485,7 @@ export default function SupportPage() {
                                       <svg fill="none" height="13" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="13"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"></path><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg>
                                     </button>
                                   </div>
-                                  <a className="ad-article-link" href="mailto:hello@agenttag.me">Still stuck? Talk to us →</a>
+                                  <a className="ad-article-link" href="mailto:contact@agenttag.me">Still stuck? Talk to us →</a>
                                 </div>
                               </motion.div>
                             )}
@@ -570,7 +570,7 @@ export default function SupportPage() {
               <div className="footer-col-title">Support</div>
               <a className="footer-link" href="/support">Knowledge base</a>
               <a className="footer-link" href="https://status.agenttag.me" target="_blank" rel="noopener noreferrer">System status</a>
-              <a className="footer-link" href="mailto:hello@agenttag.me">Contact us</a>
+              <a className="footer-link" href="mailto:contact@agenttag.me">Contact us</a>
             </div>
             <div>
               <div className="footer-col-title">Socials</div>

@@ -86,9 +86,9 @@ const websiteJsonLd = {
       "logo": "https://agenttag.me/logo.png",
       "description": "AgentTag is a control plane for AI agent identity and governance. It gives every autonomous AI agent its own cryptographic credentials, signed mandates, and a tamper-evident audit ledger.",
       "contactPoint": [
-        { "@type": "ContactPoint", "email": "hello@agenttag.me", "contactType": "customer support" },
-        { "@type": "ContactPoint", "email": "security@agenttag.me", "contactType": "security" },
-        { "@type": "ContactPoint", "email": "privacy@agenttag.me", "contactType": "privacy" }
+        { "@type": "ContactPoint", "email": "contact@agenttag.me", "contactType": "customer support" },
+        { "@type": "ContactPoint", "email": "contact@agenttag.me", "contactType": "security" },
+        { "@type": "ContactPoint", "email": "contact@agenttag.me", "contactType": "privacy" }
       ]
     }
   ]

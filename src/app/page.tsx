@@ -2346,8 +2346,8 @@ function App() {
 <a className="footer-link" href="#how">Platform</a>
 <a className="footer-link" href="#pricing">Pricing</a>
 <a className="footer-link" href="#surface">Docs</a>
-<a className="footer-link" href="mailto:careers@agenttag.me">Careers</a>
-<a className="footer-link" href="mailto:hello@agenttag.me">Contact us</a>
+<a className="footer-link" href="mailto:contact@agenttag.me">Careers</a>
+<a className="footer-link" href="mailto:contact@agenttag.me">Contact us</a>
 </div>
 <div>
 <div className="footer-col-title">Platform</div>

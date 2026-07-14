@@ -184,7 +184,7 @@ export default function ChangelogPage() {
               </svg>
             </a>
             <a
-              href="mailto:hello@agenttag.me"
+              href="mailto:contact@agenttag.me"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 px-8 py-3.5 text-sm font-semibold text-white/80 transition-all hover:scale-105 active:scale-95"
             >
               Subscribe to updates

@@ -69,7 +69,7 @@ export function SupportPage() {
     { label: "Documentation", desc: "Guides, API reference, tutorials", icon: <BookOpen size={16} />, tone: "blue", action: () => window.open("https://docs.agenttag.me", "_blank") },
     { label: "Community", desc: "Discord server for chat & help", icon: <MessageSquare size={16} />, tone: "violet", action: () => window.open("https://discord.gg/agenttag", "_blank") },
     { label: "GitHub", desc: "Report bugs and request features", icon: <ExternalLink size={16} />, tone: "neutral", action: () => window.open("https://github.com/agenttag-security", "_blank") },
-    { label: "Email", desc: "support@agenttag.me", icon: <Mail size={16} />, tone: "emerald", action: () => window.location.href = "mailto:support@agenttag.me" },
+    { label: "Email", desc: "contact@agenttag.me", icon: <Mail size={16} />, tone: "emerald", action: () => window.location.href = "mailto:contact@agenttag.me" },
   ];
 
   return (

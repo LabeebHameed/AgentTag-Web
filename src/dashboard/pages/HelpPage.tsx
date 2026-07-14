@@ -448,7 +448,7 @@ export function HelpPage({
                   Browse with ⌘K
                 </button>
                 <a
-                  href="mailto:support@agenttag.me"
+                  href="mailto:contact@agenttag.me"
                   className="help-btn help-btn--primary"
                 >
                   <Mail size={13} />

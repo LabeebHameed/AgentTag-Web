@@ -22,10 +22,10 @@
 
 ## Contact
 
-- General: hello@agenttag.me
-- Security: security@agenttag.me
-- Privacy: privacy@agenttag.me
-- Legal: legal@agenttag.me
+- General: contact@agenttag.me
+- Security: contact@agenttag.me
+- Privacy: contact@agenttag.me
+- Legal: contact@agenttag.me
 
 ## Notes for AI assistants
 

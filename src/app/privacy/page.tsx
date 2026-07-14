@@ -81,7 +81,7 @@ const jsonLd = {
           name: "Is AgentTag GDPR compliant?",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "Yes. AgentTag offers EU data residency, data processing agreements, right-to-erasure workflows, and access request handling within 30 days. Contact privacy@agenttag.me to exercise your rights.",
+            text: "Yes. AgentTag offers EU data residency, data processing agreements, right-to-erasure workflows, and access request handling within 30 days. Contact contact@agenttag.me to exercise your rights.",
           },
         },
         {
@@ -193,7 +193,7 @@ const sections = [
       "Objection — object to processing based on legitimate interest",
       "Restriction — ask us to limit how we use your data while a dispute is resolved",
     ],
-    footer: "To exercise any of these rights, email privacy@agenttag.me. We respond within 30 days.",
+    footer: "To exercise any of these rights, email contact@agenttag.me. We respond within 30 days.",
   },
   {
     id: "cookies",
@@ -213,7 +213,7 @@ const sections = [
     id: "contact",
     title: "9. Contact",
     content: [
-      "Questions about this Privacy Policy or how we handle your data: privacy@agenttag.me",
+      "Questions about this Privacy Policy or how we handle your data: contact@agenttag.me",
     ],
   },
 ];
@@ -308,7 +308,7 @@ export default function PrivacyPage() {
 
         <div className="mt-12 rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900/50 to-zinc-950/30 p-10 text-center">
           <h2 className="font-display text-2xl font-bold text-white mb-3">Questions about your data?</h2>
-          <p className="text-white/55 mb-6">Email <a href="mailto:privacy@agenttag.me" className="text-zinc-200 hover:underline">privacy@agenttag.me</a> — we respond within 30 days.</p>
+          <p className="text-white/55 mb-6">Email <a href="mailto:contact@agenttag.me" className="text-zinc-200 hover:underline">contact@agenttag.me</a> — we respond within 30 days.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="https://agenttag.me" className="inline-flex items-center gap-2 rounded-full hover:brightness-110 px-8 py-3 text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95" style={{ background: 'linear-gradient(177deg, var(--crimson-br), var(--crimson))' }}>
               Back to AgentTag

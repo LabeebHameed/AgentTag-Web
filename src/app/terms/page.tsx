@@ -86,7 +86,7 @@ const sections = [
     items: [
       "Provide accurate information when creating an account and keep it up to date",
       "Keep your account credentials secure — you are responsible for all activity under your account",
-      "Notify us immediately at security@agenttag.me if you detect unauthorised use of your account",
+      "Notify us immediately at contact@agenttag.me if you detect unauthorised use of your account",
       "Do not share account credentials or use another person's account",
     ],
   },
@@ -149,7 +149,7 @@ const sections = [
   {
     id: "contact",
     title: "10. Contact",
-    content: ["Questions about these Terms: legal@agenttag.me"],
+    content: ["Questions about these Terms: contact@agenttag.me"],
   },
 ];
 
@@ -217,7 +217,7 @@ export default function TermsPage() {
 
         <div className="mt-12 rounded-3xl border border-white/10 bg-gradient-to-br from-zinc-900/50 to-zinc-950/30 p-10 text-center">
           <h2 className="font-display text-2xl font-bold text-white mb-3">Questions about these terms?</h2>
-          <p className="text-white/55 mb-6">Contact us at <a href="mailto:legal@agenttag.me" className="text-zinc-200 hover:underline">legal@agenttag.me</a></p>
+          <p className="text-white/55 mb-6">Contact us at <a href="mailto:contact@agenttag.me" className="text-zinc-200 hover:underline">contact@agenttag.me</a></p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="https://agenttag.me" className="inline-flex items-center gap-2 rounded-full hover:brightness-110 px-8 py-3 text-sm font-semibold text-white transition-all hover:scale-105 active:scale-95" style={{ background: 'linear-gradient(177deg, var(--crimson-br), var(--crimson))' }}>
               Back to AgentTag

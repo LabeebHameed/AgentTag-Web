@@ -11,7 +11,7 @@ export async function GET() {
         <pubDate>${new Date(post.metadata.date).toUTCString()}</pubDate>
         <guid>https://agenttag.me/blog/${post.metadata.slug}</guid>
         <category>${escapeXml(post.metadata.category)}</category>
-        <author>hello@agenttag.me (${escapeXml(post.metadata.author)})</author>
+        <author>contact@agenttag.me (${escapeXml(post.metadata.author)})</author>
       </item>
     `).join('');
 
