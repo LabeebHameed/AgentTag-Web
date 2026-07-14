@@ -2,7 +2,11 @@
 import RotatingWord from "@/components/RotatingWord"
 import { useState, useEffect, useRef } from "react"
 import { MotionConfig, motion, AnimatePresence } from "framer-motion"
-import WorldMap from "@/components/WorldMap"
+import dynamic from "next/dynamic"
+const WorldMap = dynamic(() => import("@/components/WorldMap"), {
+  ssr: false,
+  loading: () => <div style={{ height: "100%", width: "100%", background: "transparent" }} />
+});
 import Lenis from "lenis"
 import { StoreProvider } from "@/dashboard/data"
 import { OverviewPage, GovernancePage, InboxPage } from "@/dashboard/pages"
@@ -130,7 +134,10 @@ function App() {
   useEffect(() => {
     try {
       if (!localStorage.getItem('aeg-cookie-consent')) {
-        setShowConsent(true);
+        const timer = setTimeout(() => {
+          setShowConsent(true);
+        }, 2500); // Delay by 2.5s to keep it out of the LCP critical paint window
+        return () => clearTimeout(timer);
       }
     } catch {
       // ignore
@@ -938,20 +945,20 @@ function App() {
 <div style={{display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "48px", maxWidth: "800px", margin: "0 auto", width: "100%"}}>
 {/* CENTERED: copy */}
 <div className="hero-copy">
-<a className="pill-badge reveal" href="#cta" style={{marginBottom: "26px"}}>
+<a className="pill-badge" href="#cta" style={{marginBottom: "26px"}}>
 <span style={{position: "relative", display: "inline-flex", width: "8px", height: "8px"}}>
 <span style={{position: "absolute", inset: "0", borderRadius: "50%", background: "var(--ok)", animation: "aeg-ping 1.8s var(--ease) infinite"}}></span>
 <span className="dot" style={{width: "8px", height: "8px", background: "var(--ok)", boxShadow: "0 0 8px var(--ok)"}}></span>
 </span>
 <span>Now in public beta <span style={{opacity: 0.85}}>— free to use</span></span>
 </a>
-<h1 className="display reveal d1" style={{margin: "0", fontSize: "clamp(36px, 5.2vw, 60px)", lineHeight: "1.25", letterSpacing: "-.025em", textAlign: "center", textWrap: "balance"}}>
+<h1 className="display" style={{margin: "0", fontSize: "clamp(36px, 5.2vw, 60px)", lineHeight: "1.25", letterSpacing: "-.025em", textAlign: "center", textWrap: "balance"}}>
           Give every agent <span style={{ whiteSpace: "nowrap" }}>its own <RotatingWord />.</span>
 </h1>
-<p className="reveal d2" style={{maxWidth: "640px", margin: "24px auto 0", fontSize: "clamp(16px, 1.5vw, 18px)", lineHeight: "1.68", color: "var(--ink-soft)", opacity: 0.82, textAlign: "center"}}>
+<p style={{maxWidth: "640px", margin: "24px auto 0", fontSize: "clamp(16px, 1.5vw, 18px)", lineHeight: "1.68", color: "var(--ink-soft)", opacity: 0.82, textAlign: "center"}}>
           The control plane that gives every agent its own credentials and audit trail — governed by signed mandates you control and can revoke in one step.
         </p>
-<div className="hero-row reveal d3" style={{display: "flex", gap: "16px", alignItems: "center", justifyContent: "center", flexWrap: "wrap", marginTop: "32px"}}>
+<div className="hero-row" style={{display: "flex", gap: "16px", alignItems: "center", justifyContent: "center", flexWrap: "wrap", marginTop: "32px"}}>
 <a 
   ref={ctaRef}
   className="btn-cta-primary" 
