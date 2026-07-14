@@ -112,16 +112,6 @@ export default function SupportPage() {
   const [newsletterEmail, setNewsletterEmail] = useState("")
   const [newsletterSent, setNewsletterSent] = useState(false)
   const [newsletterStatus, setNewsletterStatus] = useState("")
-  const [theme, setTheme] = useState<string>(() => {
-    try { return localStorage.getItem("aeg-theme") || "light" } catch { return "light" }
-  })
-
-  useEffect(() => {
-    const root = document.documentElement
-    if (theme === "dark") root.setAttribute("data-theme", "dark")
-    else root.removeAttribute("data-theme")
-    try { localStorage.setItem("aeg-theme", theme) } catch { /* ignore */ }
-  }, [theme])
 
   useEffect(() => { window.scrollTo(0, 0) }, [])
 
@@ -137,12 +127,12 @@ export default function SupportPage() {
   const countByCategory = (cat: string) =>
     cat === "all" ? faqItems.length : faqItems.filter((i) => i.cat === cat).length
 
-  const logoSrc = theme === "dark" ? "/logo_bgremoved_inverted.png" : "/logo_bgremoved.png"
+  const logoSrc = "/logo_bgremoved_inverted.png"
 
   const onNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!newsletterEmail.includes("@")) return
-    const endpoint = import.meta.env.VITE_NEWSLETTER_ENDPOINT;
+    const endpoint = process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT;
     if (endpoint) {
       fetch(endpoint, {
         method: 'POST',
@@ -168,55 +158,8 @@ export default function SupportPage() {
   }
 
   return (
-    <div className="aeg-page aeg-dash aeg-dash-support">
+    <div className="aeg-page aeg-dash aeg-dash-support pt-6">
       <a className="skip-link" href="#main">Skip to main content</a>
-
-      {/* ── Top nav (matches landing shell, scope-aware) ───────── */}
-      <div className="aeg-nav-container">
-        <nav className="aeg-nav" aria-label="Main navigation">
-          <div style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "0 40px", maxWidth: "100%" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "34px" }}>
-              <a href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
-                <img src={logoSrc} alt="AgentTag Logo" height="24" style={{ height: "24px", width: "auto", outline: "none" }} className="brand-logo-img" />
-                <span className="brand-logo-text">AgentTag</span>
-              </a>
-              <div className="hide-sm" style={{ display: "flex", alignItems: "center", gap: "2px" }}>
-                <a className="nav-link" href="/">Product</a>
-                <a className="nav-link" href="/">Pricing</a>
-                <a className="nav-link" href="/">Docs</a>
-                <a className="nav-link is-active" href="/support" aria-current="page">Support</a>
-              </div>
-            </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <button
-                aria-label="Toggle dark mode"
-                className="theme-toggle"
-                title="Toggle dark mode"
-                type="button"
-                onClick={() => setTheme((p) => (p === "dark" ? "light" : "dark"))}
-              >
-                <AnimatePresence mode="popLayout" initial={false}>
-                  <motion.span
-                    key={theme}
-                    initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-                    animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
-                    transition={{ type: "spring", duration: 0.3, bounce: 0 }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
-                  >
-                    {theme === "dark" ? (
-                      <svg className="t-moon" fill="none" height="16" viewBox="0 0 24 24" width="16"><path d="M20 13.5A8 8 0 1 1 10.5 4a6.3 6.3 0 0 0 9.5 9.5z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.6"></path></svg>
-                    ) : (
-                      <svg className="t-sun" fill="none" height="16" viewBox="0 0 24 24" width="16"><circle cx="12" cy="12" r="4.2" stroke="currentColor" strokeWidth="1.6"></circle><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6M18.7 18.7l-1.6-1.6M6.9 6.9 5.3 5.3" stroke="currentColor" strokeLinecap="round" strokeWidth="1.6"></path></svg>
-                    )}
-                  </motion.span>
-                </AnimatePresence>
-              </button>
-              <a className="btn-capsule-cta" href="/">Back to home</a>
-            </div>
-          </div>
-        </nav>
-      </div>
 
       <main id="main">
         <div className="ad-support-shell">
@@ -253,7 +196,7 @@ export default function SupportPage() {
 
           {/* ── Search bar (full width) ──────────────────────── */}
           <div className="ad-search-card ad-card">
-            <svg className="ad-search-ico" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="ad-search-ico" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
               <circle cx="11" cy="11" r="7"></circle>
               <line x1="21" x2="16.65" y1="21" y2="16.65"></line>
             </svg>
@@ -347,7 +290,7 @@ export default function SupportPage() {
               <div className="ad-card pad ad-talk-card">
                 <div className="ad-talk-eyebrow">Talk to a human</div>
                 <p className="ad-talk-desc">Beta users get a direct line to the founders. Real humans, real answers.</p>
-                <a className="ad-btn ad-btn-ink ad-btn-block" href="mailto:hello@agenttag.me">
+                <a className="ad-btn ad-btn-ink ad-btn-block" href="mailto:contact@agenttag.me">
                   Email support
                   <svg fill="none" height="13" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" viewBox="0 0 24 24" width="13"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                 </a>
@@ -469,7 +412,7 @@ export default function SupportPage() {
                     <p className="ad-empty-desc">Try a different keyword, browse a topic in the sidebar, or message the team — they reply in under six hours.</p>
                     <div className="ad-empty-actions">
                       <button type="button" className="ad-btn ad-btn-ghost" onClick={() => { setSupportQuery(""); setActiveCategory("all") }}>Reset filters</button>
-                      <a className="ad-btn ad-btn-primary" href="mailto:hello@agenttag.me">Email the team</a>
+                      <a className="ad-btn ad-btn-primary" href="mailto:contact@agenttag.me">Email the team</a>
                     </div>
                   </div>
                 ) : (
@@ -542,7 +485,7 @@ export default function SupportPage() {
                                       <svg fill="none" height="13" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="13"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"></path><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"></path></svg>
                                     </button>
                                   </div>
-                                  <a className="ad-article-link" href="mailto:hello@agenttag.me">Still stuck? Talk to us →</a>
+                                  <a className="ad-article-link" href="mailto:contact@agenttag.me">Still stuck? Talk to us →</a>
                                 </div>
                               </motion.div>
                             )}
@@ -627,7 +570,7 @@ export default function SupportPage() {
               <div className="footer-col-title">Support</div>
               <a className="footer-link" href="/support">Knowledge base</a>
               <a className="footer-link" href="https://status.agenttag.me" target="_blank" rel="noopener noreferrer">System status</a>
-              <a className="footer-link" href="mailto:hello@agenttag.me">Contact us</a>
+              <a className="footer-link" href="mailto:contact@agenttag.me">Contact us</a>
             </div>
             <div>
               <div className="footer-col-title">Socials</div>

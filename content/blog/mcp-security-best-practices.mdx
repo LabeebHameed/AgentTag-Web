@@ -1,0 +1,57 @@
+---
+title: "Model Context Protocol (MCP) Security: How to Deploy Safely in Production"
+date: "July 14 2026"
+description: "Anthropic's Model Context Protocol (MCP) is the standard for connecting LLMs to tools. Learn the security risks and production deployment best practices."
+category: "Security"
+author: "AgentTag Security Team"
+---
+
+Anthropic's **Model Context Protocol (MCP)** has quickly emerged as the developer standard for connecting Large Language Models (LLMs) to data sources, local files, and APIs. By separating the client interface from specialized tool providers, MCP makes it simple to extend the capabilities of models like Claude.
+
+However, while MCP streamlines integration, it introduces new security challenges. MCP does not define an authorization or authentication model. Out-of-the-box, an MCP client can execute any tool exposed by an MCP server with the same permissions as the process running it. 
+
+If you are deploying MCP-based agents in production, understanding these risks and establishing security controls is essential to protecting your systems.
+
+## The Core Security Risks of MCP
+
+Because the protocol focuses purely on communication rather than access control, standard MCP deployments suffer from three major vulnerabilities:
+
+### 1. Lack of Tool-Level Authorization
+In a default configuration, once a client connects to an MCP server, it can call any tool exposed by that server. There is no middle-layer validation to say *"this model is allowed to run search_web, but not write_file."* If the model attempts a call, the server executes it.
+
+### 2. Broad System Access (Credential Hijacking)
+MCP servers typically run locally or inside container environments with full access to environment variables, credentials, and file paths. If a user connects Claude Desktop to an MCP server managing local file edits, a prompt injection attack could instruct the model to read private SSH keys or delete project directories.
+
+### 3. Lack of Verifiable Audit Logs
+Most MCP server implementations write standard log outputs, but they do not sign requests. If a malicious action occurs, it is nearly impossible to prove cryptographically which agent initiated the tool call, what instructions triggered it, or whether the log files themselves have been modified.
+
+---
+
+## Production Security Best Practices for MCP
+
+To address these vulnerabilities, production deployments of Model Context Protocol should adhere to the following security guidelines:
+
+### 1. Enforce Least-Privilege Tool Scopes
+Never connect an agent to a broad, multi-purpose MCP server if it only needs one tool. If your agent's task is only to read database records, configure an MCP server that only exposes `read` tools—never `write` or `delete` capabilities.
+
+### 2. Implement Gateway Policy Controls
+Do not run MCP servers directly connected to untrusted models. Position a policy gateway between the client and server. The gateway should intercept tool calls and validate them against an active policy mandate (such as limiting the spend of API calls or matching arguments against an allowlist) before forwarding them to the server.
+
+### 3. Require Cryptographic Attribution
+Each agent running tool calls should present a signed credential—an **agent passport**—with every request. The signature must verify against the agent's public key (e.g., bound to a W3C DID), proving exactly which agent requested the tool call.
+
+### 4. Create Tamper-Evident Logs
+Record every MCP tool call, argument, and response in a sequential audit ledger. Chaining logs with SHA-256 hashes ensures that any retroactive log tampering breaks the signature chain, making it detectable during compliance audits.
+
+---
+
+## Safe MCP Deployment with AgentTag
+
+AgentTag is designed specifically to act as the security control plane for Model Context Protocol. By adding AgentTag in front of your MCP servers, you instantly gain:
+
+- **Per-tool access restrictions** defined in version-controlled JSON mandates.
+- **Spend limits** to prevent runaway loops or expensive tool executions.
+- **Cryptographic signing** using Ed25519 keys, mapping actions to distinct agent passports.
+- **Step-up human approvals** for sensitive tools like file deletion or external API transactions.
+
+Securing your MCP integrations takes under five minutes. Simply run `agenttag mcp add` in your terminal to proxy tool calls through a secure, auditable policy gateway.

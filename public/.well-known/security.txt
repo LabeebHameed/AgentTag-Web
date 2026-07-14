@@ -1,4 +1,4 @@
-Contact: mailto:security@agenttag.me
+Contact: mailto:contact@agenttag.me
 Expires: 2027-01-01T12:00:00.000Z
 Preferred-Languages: en
 Canonical: https://agenttag.me/.well-known/security.txt
