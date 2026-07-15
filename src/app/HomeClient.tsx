@@ -1,13 +1,13 @@
 "use client";
 import RotatingWord from "@/components/RotatingWord"
 import { useState, useEffect, useRef } from "react"
-import { MotionConfig, motion, AnimatePresence } from "framer-motion"
+import { MotionConfig, m, AnimatePresence, LazyMotion, domAnimation } from "framer-motion"
 import dynamic from "next/dynamic"
 const WorldMap = dynamic(() => import("@/components/WorldMap"), {
   ssr: false,
   loading: () => <div style={{ height: "100%", width: "100%", background: "transparent" }} />
 });
-import Lenis from "lenis"
+// import Lenis from "lenis"
 import { StoreProvider } from "@/dashboard/data"
 import { OverviewPage, GovernancePage, InboxPage } from "@/dashboard/pages"
 import '@/dashboard/dashboard.css';
@@ -107,6 +107,25 @@ const toolIcons: Record<string, React.ReactNode> = {
 
 
 function HomeClient() {
+  const [showcaseHasEntered, setShowcaseHasEntered] = useState(false);
+
+  useEffect(() => {
+    if (!showcaseRef.current) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setShowcaseHasEntered(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "300px" });
+    observer.observe(showcaseRef.current);
+    return () => observer.disconnect();
+  }, []);
+  // Lazy-load dashboard CSS after first paint so it doesn't block FCP/LCP.
+  useEffect(() => {
+    // Dynamic import defers this 169 KB stylesheet out of the render-critical path.
+    const loadDashCss = () => import('../dashboard/dashboard.css' as never as string);
+    loadDashCss();
+  }, []);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -259,39 +278,40 @@ function HomeClient() {
     };
   }, []);
 
-  // Initialize Lenis smooth scroll
+    // Initialize Lenis smooth scroll
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1.1,
-      touchMultiplier: 1.5,
+    let lenis: any;
+    let rafId: number;
+    
+    import("lenis").then(({ default: Lenis }) => {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1.1,
+        touchMultiplier: 1.5,
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        rafId = requestAnimationFrame(raf);
+      }
+      rafId = requestAnimationFrame(raf);
     });
 
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
-
-    // Coordinate with native anchors for smooth scrolling with offset
     const handleAnchorClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchor = target.closest('a');
       if (anchor) {
         const href = anchor.getAttribute('href');
-        // Only intercept same-page section anchors (#hero, #pricing, etc); everything else (external links, absolute URLs to app.agenttag.me) is left alone.
         if (href && href.startsWith('#') && !href.startsWith('#/')) {
           e.preventDefault();
           const targetEl = document.querySelector(href);
-          if (targetEl) {
-            // Give 74px offset for sticky header
+          if (targetEl && lenis) {
             lenis.scrollTo(targetEl as HTMLElement, { offset: -74 });
-          } else if (href === '#top') {
+          } else if (href === '#top' && lenis) {
             lenis.scrollTo(0);
           }
         }
@@ -301,7 +321,7 @@ function HomeClient() {
     document.addEventListener('click', handleAnchorClick);
 
     return () => {
-      lenis.destroy();
+      if (lenis) lenis.destroy();
       cancelAnimationFrame(rafId);
       document.removeEventListener('click', handleAnchorClick);
     };
@@ -679,6 +699,7 @@ function HomeClient() {
   }, []);
 
   return (
+    <LazyMotion features={domAnimation}>
     <MotionConfig reducedMotion="user">
 <div className="aeg-page">
 <a className="skip-link" href="#main">Skip to main content</a>
@@ -748,7 +769,7 @@ function HomeClient() {
 
       <button aria-expanded={mobileMenuOpen} aria-label="Toggle menu" className="mobile-menu-toggle" id="mobileMenuToggle" type="button" onClick={() => setMobileMenuOpen(prev => !prev)}>
         <AnimatePresence mode="popLayout" initial={false}>
-          <motion.span
+          <m.span
             key={mobileMenuOpen ? "close" : "menu"}
             initial={{ opacity: 0, scale: 0.25, filter: "blur(4px)" }}
             animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
@@ -761,7 +782,7 @@ function HomeClient() {
             ) : (
               <svg className="icon-menu" fill="none" height="16" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" width="16"><line x1="3" x2="21" y1="12" y2="12"></line><line x1="3" x2="21" y1="6" y2="6"></line><line x1="3" x2="21" y1="18" y2="18"></line></svg>
             )}
-          </motion.span>
+          </m.span>
         </AnimatePresence>
       </button>
       <a className="btn-capsule-cta" href="#cta">Request access</a>
@@ -783,7 +804,7 @@ function HomeClient() {
 
 </nav>
 </div>
-<main id="main">
+<main id="main" suppressHydrationWarning>
 {/* ==================== HERO BOX ==================== */}
 <div className="hero-bg-container">
   <video
@@ -1039,7 +1060,7 @@ function HomeClient() {
       </div>
       <div className="showcase-window-body">
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={showcaseTab + '-' + theme}
             initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -1047,7 +1068,7 @@ function HomeClient() {
             transition={{ duration: 0.22, ease: "easeOut" }}
             style={{ width: "100%", height: "100%", display: "flex" }}
           >
-            {showcaseTab === 'overview' && (
+            {showcaseHasEntered && showcaseTab === 'overview' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
                   <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
@@ -1056,7 +1077,7 @@ function HomeClient() {
                 </div>
               </StoreProvider>
             )}
-            {showcaseTab === 'governance' && (
+            {showcaseHasEntered && showcaseTab === 'governance' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
                   <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
@@ -1065,7 +1086,7 @@ function HomeClient() {
                 </div>
               </StoreProvider>
             )}
-            {showcaseTab === 'inbox' && (
+            {showcaseHasEntered && showcaseTab === 'inbox' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
                   <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
@@ -1074,7 +1095,7 @@ function HomeClient() {
                 </div>
               </StoreProvider>
             )}
-            {showcaseTab === 'wizard' && (
+            {showcaseHasEntered && showcaseTab === 'wizard' && (
               <StoreProvider>
                 <div className="aeg-dash" style={{ position: "relative", inset: "auto", width: "100%", height: "100%", minHeight: "0", background: "transparent" }}>
                   <div className="ad-main" style={{ minHeight: "0", height: "100%", width: "100%" }}>
@@ -1083,7 +1104,7 @@ function HomeClient() {
                 </div>
               </StoreProvider>
             )}
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </div>
@@ -2026,18 +2047,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">What exactly is an agent passport?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 0 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 0 && (
-                      <motion.div
+                      <m.div
                         key="faq-0"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2049,7 +2070,7 @@ function HomeClient() {
                           <p>An agent passport is the agent's own cryptographic identity — an Ed25519 keypair bound to a W3C DID. It signs requests and audit entries so permissions can be scoped and revoked cleanly, and so every action is attributable to a specific agent rather than to whoever has your API key.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2063,18 +2084,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">How is this different from giving an agent my API keys?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 1 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 1 && (
-                      <motion.div
+                      <m.div
                         key="faq-1"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2086,7 +2107,7 @@ function HomeClient() {
                           <p>API keys give broad access to whoever has them. AgentTag gives each agent a separate identity with narrow, policy-based permissions — spend caps, allowed tools, expiring scopes — and a signed audit trail you can verify after the fact.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2100,18 +2121,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">What does 'governed by mandates' mean in practice?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 2 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 2 && (
-                      <motion.div
+                      <m.div
                         key="faq-2"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2123,7 +2144,7 @@ function HomeClient() {
                           <p>Mandates are signed policy documents that define what an agent can do, how much it can spend, when it must ask for human approval, and when access expires. They are version-controlled, revocable, and evaluated at request time by the policy engine.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2137,18 +2158,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">How do I install AgentTag for the first time?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 3 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 3 && (
-                      <motion.div
+                      <m.div
                         key="faq-3"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2160,7 +2181,7 @@ function HomeClient() {
                           <p>Run `agenttag mcp add --client claude` to mint a passport and register your first mandate. The CLI walks you through the rest, and you can finish setup from the Setup and CLI tab in the control plane.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2174,18 +2195,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">Is the audit ledger really tamper-evident?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 4 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 4 && (
-                      <motion.div
+                      <m.div
                         key="faq-4"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2197,7 +2218,7 @@ function HomeClient() {
                           <p>Yes. Each entry includes the hash of the previous entry, so the chain is verifiable end-to-end and any retro-edit would break every hash that follows. You can export and re-verify the chain yourself at any time.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2211,18 +2232,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">What does it cost during the beta?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 5 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 5 && (
-                      <motion.div
+                      <m.div
                         key="faq-5"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2234,7 +2255,7 @@ function HomeClient() {
                           <p>Nothing — the public beta is free with generous usage limits. When we move to general availability, you will get 30 days notice and founding-user pricing will be locked in.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2248,18 +2269,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">Do I need to replace my existing MCP clients?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 6 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 6 && (
-                      <motion.div
+                      <m.div
                         key="faq-6"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2271,7 +2292,7 @@ function HomeClient() {
                           <p>No. AgentTag sits in front of your existing MCP servers as a policy surface — your Claude Desktop, CrewAI, or LangChain clients keep working unchanged, but every request now flows through signed mandates first.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2285,18 +2306,18 @@ function HomeClient() {
                   >
                     <span className="faq-q-text">What happens if a passport is compromised?</span>
                     <span className="faq-chevron">
-                      <motion.span
+                      <m.span
                         animate={{ rotate: openFaq === 7 ? 180 : 0 }}
                         transition={{ type: "spring", duration: 0.3, bounce: 0 }}
                         style={{ display: "flex" }}
                       >
                         <svg fill="none" height="14" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" viewBox="0 0 24 24" width="14"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                      </motion.span>
+                      </m.span>
                     </span>
                   </button>
                   <AnimatePresence initial={false}>
                     {openFaq === 7 && (
-                      <motion.div
+                      <m.div
                         key="faq-7"
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -2308,7 +2329,7 @@ function HomeClient() {
                           <p>Revoke it. The mandate stops being honored on the next request, in-flight sessions are killed, and the audit ledger records the revocation event with a reason. You can also pre-issue scoped, short-lived passports so a single leak is bounded.</p>
                           <a className="faq-a-foot" href="/support">Read more in Support Center →</a>
                         </div>
-                      </motion.div>
+                      </m.div>
                     )}
                   </AnimatePresence>
                 </div>
@@ -2469,6 +2490,7 @@ function HomeClient() {
 </div>
 
     </MotionConfig>
+    </LazyMotion>
   )
 }
 

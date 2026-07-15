@@ -62,10 +62,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/logo_bgremoved.png", type: "image/png" }
+      { url: "/favicon.svg", type: "image/svg+xml", sizes: "any" },
     ],
-    apple: "/logo_bgremoved.png",
+    apple: [
+      { url: "/logo_bgremoved.png", sizes: "180x180", type: "image/png" },
+    ],
+    shortcut: "/favicon.svg",
   },
 };
 
