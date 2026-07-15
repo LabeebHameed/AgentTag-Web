@@ -1233,8 +1233,8 @@
     font-weight: 600;
     letter-spacing: 1.4px;
     text-transform: uppercase;
-    color: var(--faint);
-    opacity: .8;
+    /* opacity removed — compound opacity was pushing contrast ratio below 3:1 (WCAG AA) */
+    color: var(--muted);
     margin: 0 0 26px;
     text-align: center;
   }
@@ -1270,9 +1270,9 @@
     font-weight: 700;
     font-size: 14.5px;
     letter-spacing: -0.2px;
-    color: var(--faint);
-    opacity: 0.75;
-    transition: color 0.25s var(--ease), opacity 0.25s var(--ease);
+    /* Raised from opacity 0.75 on var(--faint) to var(--muted) to meet contrast 3:1 */
+    color: var(--muted);
+    transition: color 0.25s var(--ease);
     user-select: none;
   }
   .brand-logo-item:hover {
@@ -1592,21 +1592,36 @@
       radial-gradient(circle at 20% 50px, rgba(var(--accent-rgb), 0.15) 0%, rgba(var(--accent-rgb), 0) 120px),
       radial-gradient(circle at 80% 250px, rgba(var(--accent-rgb), 0.15) 0%, rgba(var(--accent-rgb), 0) 140px),
       linear-gradient(to bottom, rgba(var(--accent-rgb), 0.03), rgba(var(--accent-rgb), 0.08));
-    /* Overscan width so background-position-x can drift without exposing an edge. */
     background-size: 150% 600px;
     background-repeat: no-repeat;
     color: var(--ink);
-    /* Animated horizontal drift — same keyframes on every cell keeps the
-       per-row vertical stitch (background-position-y) perfectly aligned. */
+    position: relative;
+    overflow: hidden;
+  }
+  /* GPU-composited drift: animate a transparent overlay via transform instead of
+     background-position-x (which forces paint and is non-composited). */
+  .cmp .col-highlight::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(var(--accent-rgb), 0.06) 30%,
+      rgba(var(--accent-rgb), 0.10) 50%,
+      rgba(var(--accent-rgb), 0.06) 70%,
+      transparent 100%);
+    transform: translateX(-100%);
     animation: cmp-drift 14s ease-in-out infinite;
+    pointer-events: none;
+    will-change: transform;
   }
   @keyframes cmp-drift {
-    0%   { background-position-x: 12%; }
-    50%  { background-position-x: 88%; }
-    100% { background-position-x: 12%; }
+    0%   { transform: translateX(-60%); }
+    50%  { transform: translateX(60%); }
+    100% { transform: translateX(-60%); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cmp .col-highlight { animation: none; background-position-x: 50%; }
+    .cmp .col-highlight::after { animation: none; }
   }
   .cmp .col-highlight .cmp-logo-wrap { color: var(--ink); }
   .cmp .col-highlight .cell-yes { color: var(--crimson); font-weight: 700; }
@@ -1650,13 +1665,11 @@
   @keyframes aeg-premium-reveal {
     0% {
       opacity: 0;
-      transform: translateY(24px) scale(0.99);
-      filter: blur(16px);
+      transform: translateY(24px) scale(0.97);
     }
     100% {
       opacity: 1;
       transform: translateY(0) scale(1);
-      filter: blur(0);
     }
   }
 
@@ -1664,18 +1677,16 @@
     from {
       opacity: 0;
       transform: translateY(-8px);
-      filter: blur(4px);
     }
     to {
       opacity: 1;
       transform: translateY(0);
-      filter: blur(0);
     }
   }
 
   .reveal {
     animation: aeg-premium-reveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
   }
   .d1 { animation-delay: 80ms; }
   .d2 { animation-delay: 160ms; }
@@ -1687,7 +1698,7 @@
   /* Apply entrance animation to nav container */
   .aeg-nav-container {
     animation: aeg-nav-entrance 1.2s cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
-    will-change: transform, opacity, filter;
+    will-change: transform, opacity;
   }
 
   /* ============ ADVANCED PREMIUM INTERACTIONS ============ */
@@ -1751,19 +1762,19 @@
   .sr {
     opacity: 0;
     transform: translateY(18px);
-    filter: blur(4px);
+    /* filter:blur removed — it's non-composited and causes 43+ animation warnings.
+       opacity + transform are GPU-composited and produce the same visual premium feel. */
     transition:
       opacity .6s var(--ease-soft),
-      transform .6s var(--ease-soft),
-      filter .6s var(--ease-soft);
-    will-change: opacity, transform, filter;
+      transform .6s var(--ease-soft);
+    will-change: opacity, transform;
     transition-delay: calc(var(--sr-i, 0) * 65ms);
   }
-  .sr-in { opacity: 1; transform: none; filter: blur(0); }
-  /* Task 3.4: ~100ms stagger between revealed items (was 65ms). */
+  .sr-in { opacity: 1; transform: none; }
+  /* ~100ms stagger between revealed items. */
   .sr { transition-delay: calc(var(--sr-i, 0) * 100ms); }
   @media (prefers-reduced-motion: reduce) {
-    .sr { opacity: 1; transform: none; filter: none; transition: none; }
+    .sr { opacity: 1; transform: none; transition: none; }
   }
 
   @media (max-width: 980px) {
@@ -2738,7 +2749,8 @@
   }
   .footer-standards-label {
     font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--faint); font-weight: 700;
+    /* Use var(--muted) instead of var(--faint) to pass WCAG 3:1 contrast for small decorative text */
+    color: var(--muted); font-weight: 700;
   }
   .footer-standards-badges { display: flex; flex-wrap: wrap; gap: 8px; }
   .footer-standards-badge {
@@ -3432,12 +3444,25 @@
     position: relative; overflow: hidden;
   }
   .gov-core::before {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-    background: linear-gradient(90deg, var(--crimson-deep), var(--crimson-br) 35%, #d0d0d0 50%, var(--crimson-br) 65%, var(--crimson-deep));
-    background-size: 220% 100%;
+    content: ''; position: absolute; top: 0; left: 0; height: 3px;
+    /* Make element wider than container — translateX sweep stays visible because
+       .gov-core has overflow:hidden. GPU-composited (no paint/layout per frame). */
+    width: 200%;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      var(--crimson-deep) 20%,
+      var(--crimson-br) 35%,
+      #d0d0d0 50%,
+      var(--crimson-br) 65%,
+      var(--crimson-deep) 80%,
+      transparent 100%);
     animation: gov-bar-shimmer 6s linear infinite;
+    will-change: transform;
   }
-  @keyframes gov-bar-shimmer { from { background-position: 140% 0; } to { background-position: -80% 0; } }
+  @keyframes gov-bar-shimmer {
+    from { transform: translateX(-100%); }
+    to   { transform: translateX(0%); }
+  }
   @media (prefers-reduced-motion: reduce) {
     .gov-core::before { animation: none; }
   }
@@ -6891,6 +6916,9 @@
     stroke-width: 1.8px;
     stroke-dasharray: 12 180;
     animation: flowDash 3.5s linear infinite;
+    /* SVG stroke-dashoffset cannot be GPU-composited; promote to its own layer
+       so the browser can avoid repainting sibling elements during the animation. */
+    will-change: stroke-dashoffset;
   }
   
   .line-flow-1-glow {

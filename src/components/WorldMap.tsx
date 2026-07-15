@@ -1,6 +1,5 @@
-import { useMemo, useRef } from "react"
+import { useRef } from "react"
 import { motion } from "framer-motion"
-import DottedMap from "dotted-map"
 
 interface Point {
   lat: number
@@ -39,21 +38,10 @@ export default function WorldMap({
 }: WorldMapProps) {
   const svgRef = useRef<SVGSVGElement>(null)
 
-  // Generating the dotted silhouette is expensive — only redo it when theme flips.
-  const svgMap = useMemo(() => {
-    const map = new DottedMap({ height: 60, grid: "diagonal" })
-    return map.getSVG({
-      radius: 0.22,
-      color: theme === "dark" ? "#ffffff2e" : "#1313133d",
-      shape: "circle",
-      backgroundColor: "transparent",
-    })
-  }, [theme])
-
   return (
     <div className="aeg-worldmap" style={{ position: "relative", width: "100%", height: "100%", fontFamily: "inherit" }}>
       <img
-        src={`data:image/svg+xml;utf8,${encodeURIComponent(svgMap)}`}
+        src={theme === "dark" ? "/dark-map.svg" : "/light-map.svg"}
         style={{
           height: "100%",
           width: "100%",
